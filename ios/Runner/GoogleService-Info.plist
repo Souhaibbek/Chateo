@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBE2uBzVZg2ufAQ3VrvGzA-5CxtscDnKGQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>801892328701</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.chateo.sbk.dev.chateo</string>
+	<key>PROJECT_ID</key>
+	<string>chateo-e9c64</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chateo-e9c64.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:801892328701:ios:48d03f79c966a64e238a94</string>
+</dict>
+</plist>

@@ -5,8 +5,7 @@ import 'package:chateo/utils/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import '../../../utils/text_field.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterPage extends GetView<RegisterController> {
   const RegisterPage({super.key});
@@ -54,11 +53,33 @@ class RegisterPage extends GetView<RegisterController> {
                         SizedBox(
                           height: 40.h,
                         ),
-                        AppTextFormField(
+                        IntlPhoneField(
                           controller: controller.phoneController,
-                          type: TextInputType.phone,
-                          hintText: 'Phone Number',
-                        ),
+                          disableLengthCheck: true,
+                          showDropdownIcon: false,
+                          cursorColor: style.primaryColor,
+                          decoration: InputDecoration(
+                            counterText: '',
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            contentPadding: const EdgeInsets.only(
+                                left: 15, bottom: 11, top: 11, right: 15),
+                            fillColor: Theme.of(context).primaryColorLight,
+                            filled: true,
+                            hintText: 'Phone Number',
+                            hintStyle: style.textTheme.bodyMedium!.copyWith(
+                              color: style.hintColor,
+                            ),
+                            alignLabelWithHint: true,
+                          ),
+                          initialCountryCode: 'IN',
+                          onChanged: (phone) {
+                            print(phone.completeNumber);
+                          },
+                        )
                       ],
                     ),
                   ),

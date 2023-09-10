@@ -20,7 +20,7 @@ class Themes {
     splashColor: AppColors.kPrimaryColor,
     secondaryHeaderColor: AppColors.kPrimaryColor,
     hintColor: AppColors.kGreyColor,
-    iconTheme: const IconThemeData(size: 24, color: AppColors.kBlackColor),
+    iconTheme: const IconThemeData(size: 18, color: AppColors.kBlackColor),
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: AppColors.kPrimaryColor),
 
@@ -30,7 +30,7 @@ class Themes {
     ),
     cardTheme: const CardTheme(
         color: Colors.black, shadowColor: Colors.grey, elevation: 4),
-
+    canvasColor: AppColors.kWhitePure,
     // app bar theme
     appBarTheme: const AppBarTheme(
       shadowColor: AppColors.kWhitePure,
@@ -41,6 +41,7 @@ class Themes {
       backgroundColor: AppColors.kWhitePure,
       iconTheme: IconThemeData(
         color: AppColors.kBlackColor,
+        size: 18,
       ),
       elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle(
@@ -109,6 +110,12 @@ class Themes {
         color: AppColors.kWhiteColor,
         fontFamily: 'Mulish',
       ),
+      headlineMedium: TextStyle(
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w600,
+        color: AppColors.kBlackColor,
+        fontFamily: 'Mulish',
+      ),
     ),
   );
   static ThemeData darkTheme = ThemeData(
@@ -127,8 +134,9 @@ class Themes {
     secondaryHeaderColor: AppColors.kWhiteColor,
     hintColor: AppColors.kWhitePure,
     cardColor: AppColors.kBlackColor,
+    canvasColor: AppColors.kBlackColor,
 
-    iconTheme: const IconThemeData(size: 24, color: AppColors.kWhiteColor),
+    iconTheme: const IconThemeData(size: 24, color: AppColors.kWhitePure),
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: AppColors.kPrimaryColorDark),
 
@@ -152,6 +160,7 @@ class Themes {
 
       iconTheme: IconThemeData(
         color: AppColors.kWhitePure,
+        size: 18,
       ),
       // shadowColor: Colors.lightPrimary,
       elevation: 0,
@@ -217,6 +226,12 @@ class Themes {
       ),
       labelLarge: TextStyle(
         fontSize: 16.sp,
+        fontWeight: FontWeight.w600,
+        color: AppColors.kWhiteColor,
+        fontFamily: 'Mulish',
+      ),
+      headlineMedium: TextStyle(
+        fontSize: 18.sp,
         fontWeight: FontWeight.w600,
         color: AppColors.kWhiteColor,
         fontFamily: 'Mulish',

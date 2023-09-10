@@ -1,5 +1,6 @@
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/styles/colors.dart';
+import 'package:chateo/widgets/global_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,9 +16,11 @@ class VerificationPage extends StatelessWidget {
     return Scaffold(
       //fix overflow when keyboard opens
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
+      appBar: GlobalAppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_outlined),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+          ),
           onPressed: () {
             Get.back();
           },

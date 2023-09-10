@@ -1,6 +1,7 @@
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/auth/register/register_controller.dart';
 import 'package:chateo/utils/buttons.dart';
+import 'package:chateo/widgets/global_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,7 @@ class RegisterPage extends GetView<RegisterController> {
       initState: (_) {},
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(
+          appBar: GlobalAppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new_outlined),
               onPressed: () {

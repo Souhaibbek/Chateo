@@ -3,6 +3,7 @@ import 'package:chateo/screens/auth/register/register_controller.dart';
 import 'package:chateo/utils/assets.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/utils/text_field.dart';
+import 'package:chateo/widgets/global_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,13 +17,12 @@ class CompleteProfilePage extends StatelessWidget {
     RegisterController controller = Get.find();
     var style = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Your Profile',
-          style: style.textTheme.titleLarge,
-        ),
+      appBar: GlobalAppBar(
+        title: 'Your Profile',
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_outlined),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+          ),
           onPressed: () {
             Get.back();
           },
@@ -69,7 +69,7 @@ class CompleteProfilePage extends StatelessWidget {
                       height: 32.h,
                     ),
                     AppTextFormField(
-                      controller: controller.phoneController,
+                      controller: controller.firstNameController,
                       type: TextInputType.name,
                       hintText: 'First Name (Required)',
                     ),
@@ -77,7 +77,7 @@ class CompleteProfilePage extends StatelessWidget {
                       height: 12.h,
                     ),
                     AppTextFormField(
-                      controller: controller.phoneController,
+                      controller: controller.lastNameController,
                       type: TextInputType.name,
                       hintText: 'Last Name (Optional)',
                     ),
@@ -91,7 +91,7 @@ class CompleteProfilePage extends StatelessWidget {
             AppButtonPrimary(
                 title: 'Save',
                 onPressed: () {
-                  Get.toNamed(AppRoutes.VERIFICATION);
+                  Get.toNamed(AppRoutes.HOME);
                 }),
           ],
         ),

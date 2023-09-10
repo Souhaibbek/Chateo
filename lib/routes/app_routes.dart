@@ -8,4 +8,5 @@ abstract class AppRoutes {
   static const String REGISTER = '/REGISTER';
   static const String VERIFICATION = '/VERIFICATION';
   static const String COMPLETEPROFILE = '/COMPLETEPROFILE';
+  static const String HOME = '/HOME';
 }

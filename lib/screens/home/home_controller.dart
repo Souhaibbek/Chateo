@@ -35,6 +35,12 @@ class HomeController extends GetxController {
   List<PersistentBottomNavBarItem> navBarsItems() {
     return [
       PersistentBottomNavBarItem(
+        title: "Contacts",
+        textStyle: TextStyle(
+          fontFamily: 'Mulish',
+          fontSize: 14.sp,
+          fontWeight: FontWeight.bold,
+        ),
         contentPadding: 0,
         iconSize: 18,
         inactiveIcon: SvgPicture.asset(
@@ -43,21 +49,19 @@ class HomeController extends GetxController {
               Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
               BlendMode.srcIn),
         ),
-        icon: Text(
-          "Contacts",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Mulish',
-            fontSize: 12.sp,
-          ),
-        ),
-        activeColorPrimary: Get.isDarkMode
-            ? AppColors.kPrimaryColorDark
-            : AppColors.kPrimaryColor,
-        inactiveColorPrimary:
+        activeColorPrimary:
             Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
+        inactiveColorPrimary:
+            Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
+        icon: Container(),
       ),
       PersistentBottomNavBarItem(
+        title: "Chats",
+        textStyle: TextStyle(
+          fontFamily: 'Mulish',
+          fontSize: 14.sp,
+          fontWeight: FontWeight.bold,
+        ),
         contentPadding: 0,
         iconSize: 18,
         inactiveIcon: SvgPicture.asset(
@@ -66,21 +70,19 @@ class HomeController extends GetxController {
               Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
               BlendMode.srcIn),
         ),
-        icon: Text(
-          "Chats",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Mulish',
-            fontSize: 12.sp,
-          ),
-        ),
-        activeColorPrimary: Get.isDarkMode
-            ? AppColors.kPrimaryColorDark
-            : AppColors.kPrimaryColor,
+        activeColorPrimary:
+            Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
         inactiveColorPrimary:
             Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
+        icon: Container(),
       ),
       PersistentBottomNavBarItem(
+        title: "Settings",
+        textStyle: TextStyle(
+          fontFamily: 'Mulish',
+          fontSize: 14.sp,
+          fontWeight: FontWeight.bold,
+        ),
         contentPadding: 0,
         iconSize: 18,
         inactiveIcon: SvgPicture.asset(
@@ -89,19 +91,11 @@ class HomeController extends GetxController {
               Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
               BlendMode.srcIn),
         ),
-        icon: Text(
-          "Settings",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Mulish',
-            fontSize: 12.sp,
-          ),
-        ),
-        activeColorPrimary: Get.isDarkMode
-            ? AppColors.kPrimaryColorDark
-            : AppColors.kPrimaryColor,
+        activeColorPrimary:
+            Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
         inactiveColorPrimary:
             Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
+        icon: Container(),
       ),
     ];
   }

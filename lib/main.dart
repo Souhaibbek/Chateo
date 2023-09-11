@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         //add this line
-        ScreenUtil.registerToBuild(context);
+        // ScreenUtil.registerToBuild(context);
         return MediaQuery(
           //Setting font does not change with system font size
           data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),

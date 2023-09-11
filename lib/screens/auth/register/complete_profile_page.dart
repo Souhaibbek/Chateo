@@ -39,8 +39,8 @@ class CompleteProfilePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 140.h,
-                      width: 140.w,
+                      height: 100.h,
+                      width: 100.w,
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
@@ -53,8 +53,9 @@ class CompleteProfilePage extends StatelessWidget {
                                   style.primaryColorDark, BlendMode.srcIn),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.bottomRight,
+                          Positioned(
+                            top: 65,
+                            left: 65,
                             child: IconButton(
                               onPressed: () {},
                               icon: const Icon(

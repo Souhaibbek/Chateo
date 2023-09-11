@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'screens/splash/splash_page.dart';
 import 'styles/colors.dart';
 
-void main() {
+void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.kWhitePure,
   ));
@@ -26,14 +26,20 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          getPages: AppPages.pages,
-          theme: Themes.lightTheme,
-          darkTheme: Themes.darkTheme,
-          themeMode: ThemeMode.light,
-          initialRoute: AppRoutes.SPLASH,
-          home: const SplashPage(),
+        //add this line
+        ScreenUtil.registerToBuild(context);
+        return MediaQuery(
+          //Setting font does not change with system font size
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          child: GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            getPages: AppPages.pages,
+            theme: Themes.lightTheme,
+            darkTheme: Themes.darkTheme,
+            themeMode: ThemeMode.light,
+            initialRoute: AppRoutes.SPLASH,
+            home: const SplashPage(),
+          ),
         );
       },
     );

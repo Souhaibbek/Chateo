@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppButtonPrimary extends StatelessWidget {
   const AppButtonPrimary({
     super.key,
-    required this.onPressed,
+    this.onPressed,
     required this.title,
     this.color,
     this.radius = 30.0,
@@ -12,7 +12,7 @@ class AppButtonPrimary extends StatelessWidget {
     this.style,
   });
 
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final String title;
   final Color? color;
   final double radius;
@@ -21,6 +21,7 @@ class AppButtonPrimary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      disabledColor: Theme.of(context).disabledColor,
       onPressed: onPressed,
       height: height ?? 50.h,
       color: color ?? Theme.of(context).primaryColor,

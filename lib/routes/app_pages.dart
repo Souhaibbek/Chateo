@@ -2,7 +2,7 @@ import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/auth/login/login_page.dart';
 import 'package:chateo/screens/auth/register/complete_profile_page.dart';
 import 'package:chateo/screens/auth/register/register_page.dart';
-import 'package:chateo/screens/auth/register/verification_page.dart';
+import 'package:chateo/screens/auth/register/otp_verif_page.dart';
 import 'package:chateo/screens/home/home_page.dart';
 import 'package:chateo/screens/onBoarding/onboarding_page.dart';
 import 'package:chateo/screens/splash/splash_page.dart';
@@ -32,8 +32,8 @@ class AppPages {
       page: () => const LoginPage(),
     ),
     GetPage(
-      name: AppRoutes.VERIFICATION,
-      page: () => const VerificationPage(),
+      name: AppRoutes.OTPVERIF,
+      page: () => const OtpVerifPage(),
     ),
     GetPage(
       name: AppRoutes.COMPLETEPROFILE,

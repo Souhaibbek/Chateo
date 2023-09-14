@@ -11,17 +11,32 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class HomeController extends GetxController {
   late PersistentTabController tabController;
+  late TextEditingController searchController;
+  RxBool isDarkMode = Get.isDarkMode.obs;
+
   @override
   void onInit() {
     tabController = PersistentTabController(initialIndex: 0);
-
+    searchController = TextEditingController();
     super.onInit();
   }
 
   @override
   void onClose() {
     tabController.dispose();
+    searchController.dispose();
     super.onClose();
+  }
+
+  void changeAppMode() {
+    if (isDarkMode.isTrue) {
+      isDarkMode.value = false;
+      Get.changeThemeMode(ThemeMode.light);
+    } else {
+      isDarkMode.value = true;
+
+      Get.changeThemeMode(ThemeMode.dark);
+    }
   }
 
   List<Widget> buildScreens() {

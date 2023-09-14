@@ -1,19 +1,32 @@
 import 'package:chateo/routes/app_pages.dart';
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/styles/themes.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
+import 'firebase_options.dart';
 import 'screens/splash/splash_page.dart';
 import 'styles/colors.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.kWhitePure,
   ));
-  runApp(const MyApp());
+  // runApp(
+  //   DevicePreview(
+  //     builder: (context) => const MyApp(), // Wrap your app
+  //   ),
+  // );
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,16 +35,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        //add this line
-        // ScreenUtil.registerToBuild(context);
-        return MediaQuery(
-          //Setting font does not change with system font size
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-          child: GetMaterialApp(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: () {
+          return GetMaterialApp(
+            // useInheritedMediaQuery: true,
+            // locale: DevicePreview.locale(context),
+            // builder: DevicePreview.appBuilder,
             debugShowCheckedModeBanner: false,
             getPages: AppPages.pages,
             theme: Themes.lightTheme,
@@ -39,9 +50,7 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.light,
             initialRoute: AppRoutes.SPLASH,
             home: const SplashPage(),
-          ),
-        );
-      },
-    );
+          );
+        });
   }
 }

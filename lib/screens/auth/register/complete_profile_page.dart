@@ -6,7 +6,6 @@ import 'package:chateo/utils/text_field.dart';
 import 'package:chateo/widgets/global_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class CompleteProfilePage extends StatelessWidget {
@@ -14,7 +13,6 @@ class CompleteProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RegisterController controller = Get.find();
     var style = Theme.of(context);
     return Scaffold(
       appBar: GlobalAppBar(
@@ -28,73 +26,86 @@ class CompleteProfilePage extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(24.0.w, 40.0.h, 24.0.w, 16.0.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 100.h,
-                      width: 100.w,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundColor: style.primaryColorLight,
-                            child: SvgPicture.asset(
-                              Assets.defaultPic,
-                              colorFilter: ColorFilter.mode(
-                                  style.primaryColorDark, BlendMode.srcIn),
-                            ),
-                          ),
-                          Positioned(
-                            top: 65,
-                            left: 65,
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.add_circle_sharp,
+      body: GetBuilder(
+        init: RegisterController(),
+        initState: (_) {},
+        builder: (controller) => Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: controller.completeProfileFormKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            fit: StackFit.expand,
+                            children: [
+                              CircleAvatar(
+                                radius: 50,
+                                backgroundColor: style.primaryColorLight,
+                                child: Image.asset(
+                                  Assets.userPic,
+                                  color: style.primaryColorDark,
+                                ),
                               ),
-                            ),
+                              const Positioned(
+                                bottom: 5,
+                                right: 5,
+                                child: Icon(
+                                  Icons.add_circle,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 32.h,
+                        ),
+                        AppTextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'First Name Is Required';
+                            }
+                            return null;
+                          },
+                          controller: controller.firstNameController,
+                          type: TextInputType.name,
+                          hintText: 'First Name (Required)',
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        AppTextFormField(
+                          controller: controller.lastNameController,
+                          type: TextInputType.name,
+                          hintText: 'Last Name (Optional)',
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 32.h,
-                    ),
-                    AppTextFormField(
-                      controller: controller.firstNameController,
-                      type: TextInputType.name,
-                      hintText: 'First Name (Required)',
-                    ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    AppTextFormField(
-                      controller: controller.lastNameController,
-                      type: TextInputType.name,
-                      hintText: 'Last Name (Optional)',
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 8.h,
-            ),
-            AppButtonPrimary(
-                title: 'Save',
-                onPressed: () {
-                  Get.toNamed(AppRoutes.HOME);
-                }),
-          ],
+              SizedBox(
+                height: 8.h,
+              ),
+              AppButtonPrimary(
+                  title: 'Save',
+                  onPressed: () {
+                    if (controller.completeProfileFormKey.currentState!
+                        .validate()) {
+                      Get.toNamed(AppRoutes.HOME);
+                    }
+                  }),
+            ],
+          ),
         ),
       ),
     );

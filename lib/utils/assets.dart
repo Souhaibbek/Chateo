@@ -18,6 +18,7 @@ class Assets {
   static void svgPrecacheImage() {
     const cacheSvgImages = [
       /// Specify the all the svg image to cache
+      Assets.logoSvg,
       Assets.backgroundSvg,
       Assets.onboarding1,
       Assets.onboarding2,

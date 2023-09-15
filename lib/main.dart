@@ -1,6 +1,7 @@
 import 'package:chateo/routes/app_pages.dart';
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/styles/themes.dart';
+import 'package:chateo/utils/assets.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ import 'styles/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Assets.svgPrecacheImage();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

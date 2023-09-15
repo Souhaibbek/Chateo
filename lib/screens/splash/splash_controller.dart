@@ -5,6 +5,7 @@ class SplashController extends GetxController {
   @override
   void onInit() async {
     await navigate();
+
     super.onInit();
   }
 

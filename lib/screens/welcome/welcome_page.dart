@@ -45,7 +45,7 @@ class WelcomePage extends GetView<WelcomeController> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 60.w),
                           child: SvgPicture.asset(
-                            Assets.background,
+                            Assets.backgroundSvg,
                             fit: BoxFit.fill,
                           ),
                         ),

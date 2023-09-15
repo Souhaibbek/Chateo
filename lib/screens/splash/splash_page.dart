@@ -1,7 +1,6 @@
 import 'package:chateo/styles/colors.dart';
 import 'package:chateo/utils/assets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'splash_controller.dart';
 
@@ -19,7 +18,7 @@ class SplashPage extends GetView<SplashController> {
           children: [
             Hero(
               tag: 'logo',
-              child: SvgPicture.asset(
+              child: Image.asset(
                 Assets.logo,
               ),
             ),

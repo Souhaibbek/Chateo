@@ -25,15 +25,17 @@ class OnBoardingController extends GetxController {
     } else {
       isLast.value = false;
     }
+    update();
   }
 
   void onDotClicked(int index) {
-    boardController.jumpToPage(index);
     if (index == 3) {
       isLast.value = true;
     } else {
       isLast.value = false;
     }
+    boardController.jumpToPage(index);
+    update();
   }
 
   void onButtonClick() {
@@ -47,6 +49,10 @@ class OnBoardingController extends GetxController {
         boardController.jumpToPage(boardController.page!.toInt() + 1);
       }
     }
+  }
+
+  void onSkip() {
+    Get.toNamed(AppRoutes.WELCOME);
   }
 
   List<BoardingModel> boarding = [

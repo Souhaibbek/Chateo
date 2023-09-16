@@ -76,6 +76,7 @@ class CompleteProfilePage extends StatelessWidget {
                             }
                             return null;
                           },
+                          prefixIcon: const Icon(Icons.person),
                           controller: controller.firstNameController,
                           type: TextInputType.name,
                           hintText: 'First Name (Required)',
@@ -84,9 +85,20 @@ class CompleteProfilePage extends StatelessWidget {
                           height: 12.h,
                         ),
                         AppTextFormField(
+                          prefixIcon: const Icon(Icons.person),
                           controller: controller.lastNameController,
                           type: TextInputType.name,
                           hintText: 'Last Name (Optional)',
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        AppTextFormField(
+                          prefixIcon: const Icon(Icons.phone_android_sharp),
+                          controller: controller.completeNumberController,
+                          type: TextInputType.name,
+                          enabled: false,
+                          hintText: 'Phone Number',
                         ),
                       ],
                     ),

@@ -39,7 +39,7 @@ class OnBoardingBody extends StatelessWidget {
                             child: Text(
                               'Skip',
                               style: style.textTheme.bodyLarge!.copyWith(
-                                  color: AppColors.kOrangeColor,
+                                  color: AppColors.kWhitePure,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),

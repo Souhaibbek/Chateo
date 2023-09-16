@@ -101,9 +101,7 @@ class RegisterPage extends GetView<RegisterController> {
                           initialCountryCode: 'TN',
                           onSubmitted: (p0) {},
                           onChanged: (phone) {
-                            controller.completeNumber.value =
-                                phone.completeNumber;
-                            controller.update();
+                            controller.getCompleteNumber(phone);
                           },
                           validator: (value) {
                             if (value == null || value.number.isEmpty) {
@@ -120,18 +118,24 @@ class RegisterPage extends GetView<RegisterController> {
               SizedBox(
                 height: 8.h,
               ),
-              AppButtonPrimary(
-                title: 'Continue',
-                onPressed: controller.phoneController.value.text.isNotEmpty
-                    ? () {
-                        if (controller.phoneFormKey.currentState!.validate()) {
-                          controller.phoneAuth(
-                            phoneNumber: controller.completeNumber.value,
-                          );
-                        }
-                      }
-                    : null,
-              ),
+              controller.loading.value
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ))
+                  : AppButtonPrimary(
+                      title: 'Continue',
+                      onPressed: controller.phoneController.text.isNotEmpty
+                          ? () {
+                              if (controller.phoneFormKey.currentState!
+                                  .validate()) {
+                                controller.phoneAuth(
+                                  phoneNumber: controller.completeNumber.value,
+                                );
+                              }
+                            }
+                          : null,
+                    ),
             ],
           ),
         ),

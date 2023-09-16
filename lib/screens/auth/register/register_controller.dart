@@ -3,29 +3,21 @@ import 'package:chateo/routes/app_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 class RegisterController extends GetxController {
   RxString completeNumber = ''.obs;
   RxString verifId = ''.obs;
   RxBool loadingOtp = false.obs;
-  late GlobalKey<FormState> phoneFormKey;
-  late GlobalKey<FormState> completeProfileFormKey;
+  RxBool loading = false.obs;
+  GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> completeProfileFormKey = GlobalKey<FormState>();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController completeNumberController = TextEditingController();
 
-  late TextEditingController phoneController;
-  late TextEditingController firstNameController;
-  late TextEditingController lastNameController;
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
-
-  @override
-  void onInit() {
-    phoneController = TextEditingController();
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
-    phoneFormKey = GlobalKey<FormState>();
-    completeProfileFormKey = GlobalKey<FormState>();
-
-    super.onInit();
-  }
 
   @override
   void onClose() {
@@ -35,17 +27,31 @@ class RegisterController extends GetxController {
     super.onClose();
   }
 
+  void getCompleteNumber(PhoneNumber phone) {
+    completeNumber.value = phone.completeNumber;
+    completeNumberController.text = completeNumber.value;
+    update();
+  }
+
   Future<void> phoneAuth({required String phoneNumber}) async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {},
-      codeSent: (String verificationId, int? resendToken) {
-        verifId.value = verificationId;
-        Get.toNamed(AppRoutes.OTPVERIF);
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
+    try {
+      loading(true);
+      update();
+
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) {},
+        verificationFailed: (FirebaseAuthException e) {},
+        codeSent: (String verificationId, int? resendToken) {
+          verifId.value = verificationId;
+          Get.toNamed(AppRoutes.OTPVERIF);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } finally {
+      loading(false);
+      update();
+    }
   }
 
   Future<void> otpVerif({required String verificationCode}) async {

@@ -10,6 +10,7 @@ class AppTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.validator,
+    this.enabled = true,
   });
 
   final TextEditingController controller;
@@ -20,11 +21,13 @@ class AppTextFormField extends StatelessWidget {
 
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
     var style = Theme.of(context);
     return TextFormField(
+      enabled: enabled,
       validator: validator,
       onFieldSubmitted: onSubmit,
       controller: controller,

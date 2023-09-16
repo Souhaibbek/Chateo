@@ -13,7 +13,7 @@ import 'styles/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Assets.svgPrecacheImage();
+  // Assets.svgPrecacheImage();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

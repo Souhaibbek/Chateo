@@ -1,11 +1,10 @@
 import 'package:chateo/screens/auth/register/register_controller.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/widgets/global_appbar.dart';
+import 'package:chateo/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/country_picker_dialog.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterPage extends GetView<RegisterController> {
   const RegisterPage({super.key});
@@ -55,59 +54,10 @@ class RegisterPage extends GetView<RegisterController> {
                       ),
                       Form(
                         key: controller.phoneFormKey,
-                        child: IntlPhoneField(
+                        child: PhoneField(
                           controller: controller.phoneController,
-                          showDropdownIcon: false,
-                          cursorColor: style.primaryColor,
-                          keyboardAppearance: Theme.of(context).brightness,
-                          keyboardType: TextInputType.phone,
-                          flagsButtonMargin:
-                              const EdgeInsets.symmetric(horizontal: 4.0),
-                          pickerDialogStyle: PickerDialogStyle(
-                            searchFieldInputDecoration: InputDecoration(
-                              hintText: 'Search country',
-                              counterText: '',
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 15, bottom: 11, top: 11, right: 15),
-                              hintStyle: style.textTheme.bodyMedium!.copyWith(
-                                color: style.hintColor,
-                              ),
-                              prefixIcon: const Icon(Icons.search),
-                              alignLabelWithHint: true,
-                            ),
-                          ),
-                          decoration: InputDecoration(
-                            counterText: '',
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            contentPadding: const EdgeInsets.only(
-                                left: 15, bottom: 11, top: 11, right: 15),
-                            fillColor: Theme.of(context).primaryColorLight,
-                            filled: true,
-                            hintText: 'Phone Number',
-                            hintStyle: style.textTheme.bodyMedium!.copyWith(
-                              color: style.hintColor,
-                            ),
-                            alignLabelWithHint: true,
-                          ),
-                          initialCountryCode: 'TN',
-                          onSubmitted: (p0) {},
                           onChanged: (phone) {
                             controller.getCompleteNumber(phone);
-                          },
-                          validator: (value) {
-                            if (value == null || value.number.isEmpty) {
-                              return "Phone number required";
-                            }
-                            return null;
                           },
                         ),
                       ),

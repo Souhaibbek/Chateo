@@ -132,7 +132,7 @@ class Themes {
     disabledColor: AppColors.kDarkColor,
     splashColor: AppColors.kPrimaryColorDark,
     secondaryHeaderColor: AppColors.kWhiteColor,
-    hintColor: AppColors.kWhitePure,
+    hintColor: AppColors.kGreyColor,
     cardColor: AppColors.kBlackColor,
     canvasColor: AppColors.kBlackColor,
 

@@ -1,5 +1,6 @@
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/auth/register/register_controller.dart';
+import 'package:chateo/styles/colors.dart';
 import 'package:chateo/utils/assets.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/utils/text_field.dart';
@@ -42,25 +43,89 @@ class CompleteProfilePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: 100,
-                          width: 100,
+                          height: 110,
+                          width: 110,
                           child: Stack(
                             clipBehavior: Clip.none,
                             fit: StackFit.expand,
                             children: [
                               CircleAvatar(
-                                radius: 50,
+                                radius: 40,
                                 backgroundColor: style.primaryColorLight,
-                                child: Image.asset(
-                                  Assets.userPic,
-                                  color: style.primaryColorDark,
-                                ),
+                                backgroundImage: controller.isPicked.isFalse
+                                    ? Image.asset(
+                                        Assets.userPic,
+                                        color: style.primaryColorDark,
+                                      ).image
+                                    : FileImage(controller.imageFile),
                               ),
-                              const Positioned(
-                                bottom: 5,
-                                right: 5,
-                                child: Icon(
-                                  Icons.add_circle,
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.bottomSheet(
+                                      backgroundColor: style.canvasColor,
+                                      Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 10.w),
+                                        height: 80.h,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () async {
+                                                await controller
+                                                    .getFromGallery();
+                                              },
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Icon(
+                                                    Icons.collections,
+                                                    size: 30,
+                                                  ),
+                                                  Text(
+                                                    'Gallery',
+                                                    style: style
+                                                        .textTheme.bodyMedium,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () async {
+                                                await controller
+                                                    .getFromCamera();
+                                              },
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Icon(
+                                                    Icons.camera_alt,
+                                                    size: 30,
+                                                  ),
+                                                  Text(
+                                                    'Camera',
+                                                    style: style
+                                                        .textTheme.bodyMedium,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.add_circle_sharp,
+                                    color: style.primaryColorDark,
+                                    size: 30,
+                                  ),
                                 ),
                               ),
                             ],

@@ -1,8 +1,10 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:chateo/routes/app_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 class RegisterController extends GetxController {
@@ -14,11 +16,12 @@ class RegisterController extends GetxController {
   GlobalKey<FormState> completeProfileFormKey = GlobalKey<FormState>();
   TextEditingController phoneController = TextEditingController();
   TextEditingController completeNumberController = TextEditingController();
-
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
-
+  final ImagePicker picker = ImagePicker();
+  File imageFile = File('');
+  RxBool isPicked = false.obs;
   @override
   void onClose() {
     phoneController.dispose();
@@ -82,5 +85,33 @@ class RegisterController extends GetxController {
       loadingOtp(false);
       log(loadingOtp.value.toString());
     }
+  }
+
+  /// Get from gallery
+  Future<void> getFromGallery() async {
+    XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (image != null) {
+      imageFile = File(image.path);
+      isPicked(true);
+    }
+    update();
+  }
+
+  /// Get from Camera
+  Future<void> getFromCamera() async {
+    XFile? image = await picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (image != null) {
+      imageFile = File(image.path);
+      isPicked(true);
+    }
+    update();
   }
 }

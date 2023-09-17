@@ -1,6 +1,5 @@
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/auth/register/register_controller.dart';
-import 'package:chateo/styles/colors.dart';
 import 'package:chateo/utils/assets.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/utils/text_field.dart';
@@ -53,11 +52,14 @@ class CompleteProfilePage extends StatelessWidget {
                                 radius: 40,
                                 backgroundColor: style.primaryColorLight,
                                 backgroundImage: controller.isPicked.isFalse
+                                    ? null
+                                    : FileImage(controller.imageFile),
+                                child: controller.isPicked.isFalse
                                     ? Image.asset(
                                         Assets.userPic,
                                         color: style.primaryColorDark,
-                                      ).image
-                                    : FileImage(controller.imageFile),
+                                      )
+                                    : null,
                               ),
                               Positioned(
                                 bottom: 0,

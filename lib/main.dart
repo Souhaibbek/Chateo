@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
-import 'screens/splash/splash_page.dart';
 import 'styles/colors.dart';
 
 void main() async {
@@ -48,8 +47,8 @@ class MyApp extends StatelessWidget {
             getPages: AppPages.pages,
             theme: Themes.lightTheme,
             darkTheme: Themes.darkTheme,
-            themeMode: ThemeMode.system,
-            initialRoute: AppRoutes.SPLASH,
+            themeMode: ThemeMode.dark,
+            initialRoute: AppRoutes.COMPLETEPROFILE,
           );
         });
   }

@@ -4,6 +4,8 @@ class Assets {
   static const String logoSvg = 'assets/img/logo.svg';
   static const String logo = 'assets/img/logo.png';
   static const String background = 'assets/img/background.png';
+  static const String gradient = 'assets/img/gradient.png';
+
   static const String backgroundSvg = 'assets/img/backgroundSvg.svg';
   static const String addIcon = 'assets/img/add_icon.svg';
   static const String chatIcon = 'assets/img/chat_icon.svg';

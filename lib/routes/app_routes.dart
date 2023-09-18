@@ -4,8 +4,13 @@ abstract class AppRoutes {
   static const String SPLASH = '/';
   static const String ONBOARDING = '/ONBOARDING';
   static const String WELCOME = '/WELCOME';
+
   static const String LOGIN = '/LOGIN';
   static const String REGISTER = '/REGISTER';
+  static const String PHONEREGISTER = '/PHONEREGISTER';
+
+  static const String FORGOT = '/FORGOT';
+
   static const String OTPVERIF = '/OTPVERIF';
   static const String COMPLETEPROFILE = '/COMPLETEPROFILE';
   static const String HOME = '/HOME';

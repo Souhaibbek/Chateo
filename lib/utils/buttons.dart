@@ -10,6 +10,7 @@ class AppButtonPrimary extends StatelessWidget {
     this.radius = 30.0,
     this.height,
     this.style,
+    this.titleColor,
   });
 
   final void Function()? onPressed;
@@ -18,9 +19,12 @@ class AppButtonPrimary extends StatelessWidget {
   final double radius;
   final double? height;
   final TextStyle? style;
+  final Color? titleColor;
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      splashColor: Colors.transparent,
+      // highlightColor: Colors.transparent,
       disabledColor: Theme.of(context).disabledColor,
       onPressed: onPressed,
       height: height ?? 50.h,
@@ -33,7 +37,10 @@ class AppButtonPrimary extends StatelessWidget {
       child: Center(
         child: Text(
           title,
-          style: style ?? Theme.of(context).textTheme.labelLarge,
+          style: style ??
+              Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: titleColor,
+                  ),
         ),
       ),
     );

@@ -1,10 +1,12 @@
+import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/auth/register/register_controller.dart';
 import 'package:chateo/utils/buttons.dart';
+import 'package:chateo/utils/text_field.dart';
 import 'package:chateo/widgets/global_appbar.dart';
-import 'package:chateo/widgets/phone_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:email_validator/email_validator.dart';
 
 class RegisterPage extends GetView<RegisterController> {
   const RegisterPage({super.key});
@@ -27,7 +29,7 @@ class RegisterPage extends GetView<RegisterController> {
         init: RegisterController(),
         initState: (_) {},
         builder: (controller) => Padding(
-          padding: EdgeInsets.fromLTRB(24.0.w, 40.0.h, 24.0.w, 16.0.h),
+          padding: EdgeInsets.fromLTRB(24.0.w, 0.0.h, 24.0.w, 16.0.h),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -37,7 +39,7 @@ class RegisterPage extends GetView<RegisterController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Enter Your Phone Number',
+                        'Sign up with E-mail',
                         style: style.textTheme.titleLarge,
                         textAlign: TextAlign.center,
                       ),
@@ -45,7 +47,7 @@ class RegisterPage extends GetView<RegisterController> {
                         height: 8.h,
                       ),
                       Text(
-                        'Please confirm your country code and enter your phone number',
+                        'Get chatting with friends and family today by signing up for our chat app!',
                         style: style.textTheme.bodyMedium,
                         textAlign: TextAlign.center,
                       ),
@@ -53,12 +55,79 @@ class RegisterPage extends GetView<RegisterController> {
                         height: 40.h,
                       ),
                       Form(
-                        key: controller.phoneFormKey,
-                        child: PhoneField(
-                          controller: controller.phoneController,
-                          onChanged: (phone) {
-                            controller.getCompleteNumber(phone);
-                          },
+                        key: controller.registerFormKey,
+                        child: Column(
+                          children: [
+                            AppTextFormField(
+                              onChanged: (val) {
+                                controller.update();
+                              },
+                              validator: (value) {
+                                if (!EmailValidator.validate(value ?? '')) {
+                                  return 'Please enter a valid email';
+                                }
+                                return null;
+                              },
+                              controller: controller.emailController,
+                              hintText: 'E-mail',
+                              prefixIcon: const Icon(Icons.email_outlined),
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            AppTextFormField(
+                              onChanged: (val) {
+                                controller.update();
+                              },
+                              validator: (value) {
+                                if (value == null || value == '') {
+                                  return 'Please enter your password';
+                                } else {
+                                  if (value.length < 8) {
+                                    return 'Password too short';
+                                  }
+                                }
+                                return null;
+                              },
+                              controller: controller.passwordController,
+                              hintText: 'Password',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  controller.switchVisibility();
+                                },
+                                icon: Icon(controller.visiblilityIcon),
+                              ),
+                              pass: controller.isInvisible.value,
+                              prefixIcon:
+                                  const Icon(Icons.lock_outline_rounded),
+                            ),
+                            SizedBox(
+                              height: 8.h,
+                            ),
+                            AppTextFormField(
+                              onChanged: (val) {
+                                controller.update();
+                              },
+                              validator: (value) {
+                                if (value !=
+                                    controller.passwordController.text) {
+                                  return 'Password should be identical';
+                                }
+                                return null;
+                              },
+                              controller: controller.password2Controller,
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  controller.switchVisibility();
+                                },
+                                icon: Icon(controller.visiblilityIcon),
+                              ),
+                              hintText: 'Confirm Password',
+                              pass: controller.isInvisible.value,
+                              prefixIcon:
+                                  const Icon(Icons.lock_outline_rounded),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -74,18 +143,42 @@ class RegisterPage extends GetView<RegisterController> {
                       color: Theme.of(context).primaryColor,
                     ))
                   : AppButtonPrimary(
-                      title: 'Continue',
-                      onPressed: controller.phoneController.text.isNotEmpty
+                      title: 'Create Account',
+                      onPressed: controller.emailController.text.isNotEmpty &&
+                              controller.passwordController.text.isNotEmpty &&
+                              controller.password2Controller.text.isNotEmpty
                           ? () {
-                              if (controller.phoneFormKey.currentState!
+                              if (controller.registerFormKey.currentState!
                                   .validate()) {
-                                controller.phoneAuth(
-                                  phoneNumber: controller.completeNumber.value,
-                                );
+                                Get.offAndToNamed(AppRoutes.WELCOME);
                               }
                             }
                           : null,
                     ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Already has an account? ',
+                    style: style.textTheme.bodyMedium!,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.LOGIN);
+                    },
+                    child: Text(
+                      'Log in',
+                      style: style.textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10.h),
             ],
           ),
         ),

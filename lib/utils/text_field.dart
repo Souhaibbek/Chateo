@@ -11,6 +11,8 @@ class AppTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.validator,
     this.enabled = true,
+    this.pass = false,
+    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -18,15 +20,18 @@ class AppTextFormField extends StatelessWidget {
   final TextInputType type;
   final void Function(String)? onSubmit;
   final String? Function(String?)? validator;
-
+  final void Function(String)? onChanged;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-  final bool? enabled;
+  final bool enabled;
+  final bool pass;
 
   @override
   Widget build(BuildContext context) {
     var style = Theme.of(context);
     return TextFormField(
+      onChanged: onChanged,
+      obscureText: pass,
       enabled: enabled,
       validator: validator,
       onFieldSubmitted: onSubmit,

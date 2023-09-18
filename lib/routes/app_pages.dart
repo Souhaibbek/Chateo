@@ -3,10 +3,12 @@ import 'package:chateo/bindings/onboarding_binding.dart';
 import 'package:chateo/bindings/register_binding.dart';
 import 'package:chateo/bindings/splash_binding.dart';
 import 'package:chateo/bindings/welcome_binding.dart';
+import 'package:chateo/screens/auth/forgot/forgot_pass_page.dart';
 import 'package:chateo/screens/auth/login/login_page.dart';
 import 'package:chateo/screens/auth/register/complete_profile_page.dart';
-import 'package:chateo/screens/auth/register/register_page.dart';
+import 'package:chateo/screens/auth/register/phone_register.dart';
 import 'package:chateo/screens/auth/register/otp_verif_page.dart';
+import 'package:chateo/screens/auth/register/register_page.dart';
 import 'package:chateo/screens/home/home_page.dart';
 import 'package:chateo/screens/onBoarding/onboarding_page.dart';
 import 'package:chateo/screens/splash/splash_page.dart';
@@ -37,8 +39,17 @@ class AppPages {
       page: () => const RegisterPage(),
     ),
     GetPage(
+      name: AppRoutes.PHONEREGISTER,
+      binding: RegisterBinding(),
+      page: () => const PhoneRegister(),
+    ),
+    GetPage(
       name: AppRoutes.LOGIN,
       page: () => const LoginPage(),
+    ),
+    GetPage(
+      name: AppRoutes.FORGOT,
+      page: () => const ForgotPassPage(),
     ),
     GetPage(
       name: AppRoutes.OTPVERIF,

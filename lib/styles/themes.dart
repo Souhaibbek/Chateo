@@ -1,3 +1,5 @@
+// ignore_for_file: slash_for_doc_comments
+
 import 'package:chateo/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +22,7 @@ class Themes {
     splashColor: AppColors.kPrimaryColor,
     secondaryHeaderColor: AppColors.kPrimaryColor,
     hintColor: AppColors.kGreyColor,
-    iconTheme: const IconThemeData(size: 18, color: AppColors.kBlackColor),
+    iconTheme: const IconThemeData(size: 24, color: AppColors.kBlackColor),
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: AppColors.kPrimaryColor),
 
@@ -62,6 +64,11 @@ class Themes {
     ),
 
     textTheme: TextTheme(
+      displayLarge: const TextStyle(
+        fontWeight: FontWeight.w400,
+        color: AppColors.kBlackColor,
+        fontFamily: 'Mulish',
+      ),
       headlineLarge: TextStyle(
         fontSize: 36.sp,
         fontWeight: FontWeight.w700,
@@ -118,6 +125,55 @@ class Themes {
       ),
     ),
   );
+/**
+ * 
+ * 
+ * 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ */
   static ThemeData darkTheme = ThemeData(
     // main colors
     scaffoldBackgroundColor: AppColors.kBlackColor,
@@ -182,6 +238,11 @@ class Themes {
     ),
 
     textTheme: TextTheme(
+      displayLarge: const TextStyle(
+        fontWeight: FontWeight.w400,
+        color: AppColors.kWhiteColor,
+        fontFamily: 'Mulish',
+      ),
       headlineLarge: TextStyle(
         fontSize: 36.sp,
         fontWeight: FontWeight.w700,

@@ -1,7 +1,6 @@
 import 'package:chateo/routes/app_pages.dart';
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/styles/themes.dart';
-import 'package:chateo/utils/assets.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'styles/colors.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
             getPages: AppPages.pages,
             theme: Themes.lightTheme,
             darkTheme: Themes.darkTheme,
-            themeMode: ThemeMode.dark,
-            initialRoute: AppRoutes.COMPLETEPROFILE,
+            themeMode: ThemeMode.system,
+            initialRoute: AppRoutes.SPLASH,
           );
         });
   }

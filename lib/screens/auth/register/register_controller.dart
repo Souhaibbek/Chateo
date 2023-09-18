@@ -12,8 +12,17 @@ class RegisterController extends GetxController {
   RxString verifId = ''.obs;
   RxBool loadingOtp = false.obs;
   RxBool loading = false.obs;
+  RxBool isInvisible = true.obs;
+
+  IconData visiblilityIcon = Icons.visibility_rounded;
   GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+
   GlobalKey<FormState> completeProfileFormKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController password2Controller = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
   TextEditingController completeNumberController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
@@ -27,7 +36,24 @@ class RegisterController extends GetxController {
     phoneController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
+
+    emailController.dispose();
+    passwordController.dispose();
+    password2Controller.dispose();
+
     super.onClose();
+  }
+
+  void switchVisibility() {
+    isInvisible(!isInvisible.value);
+    if (isInvisible.isFalse) {
+      visiblilityIcon = Icons.visibility_off_rounded;
+      update();
+    } else {
+      visiblilityIcon = Icons.visibility_rounded;
+      update();
+    }
+    log('message');
   }
 
   void getCompleteNumber(PhoneNumber phone) {

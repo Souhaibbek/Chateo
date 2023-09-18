@@ -5,8 +5,12 @@ import 'package:get/get.dart';
 class WelcomeController extends GetxController {
   RxBool isDarkMode = Get.isDarkMode.obs;
 
-  navigateToNextPage() {
+  registerEmail() {
     Get.toNamed(AppRoutes.REGISTER);
+  }
+
+  registerPhone() {
+    Get.toNamed(AppRoutes.PHONEREGISTER);
   }
 
   void changeAppMode() {

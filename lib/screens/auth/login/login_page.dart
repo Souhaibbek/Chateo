@@ -8,11 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends GetView<LoginController> {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
   Widget build(BuildContext context) {
+    GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+
     Get.put(LoginController());
     var style = Theme.of(context);
 
@@ -25,7 +32,7 @@ class LoginPage extends GetView<LoginController> {
           },
         ),
       ),
-      body: GetBuilder(
+      body: GetX(
         init: LoginController(),
         initState: (_) {},
         builder: (controller) => Padding(
@@ -55,13 +62,14 @@ class LoginPage extends GetView<LoginController> {
                         height: 40.h,
                       ),
                       Form(
-                        key: controller.loginFormKey,
+                        key: loginFormKey,
                         child: Column(
                           children: [
                             AppTextFormField(
                               onChanged: (val) {
                                 controller.update();
                               },
+                              type: TextInputType.emailAddress,
                               validator: (value) {
                                 if (!EmailValidator.validate(value ?? '')) {
                                   return 'Please enter a valid email';
@@ -138,15 +146,13 @@ class LoginPage extends GetView<LoginController> {
                     ))
                   : AppButtonPrimary(
                       title: 'Log in',
-                      onPressed: controller.emailController.text.isNotEmpty &&
-                              controller.passwordController.text.isNotEmpty
-                          ? () {
-                              if (controller.loginFormKey.currentState!
-                                  .validate()) {
-                                Get.toNamed(AppRoutes.WELCOME);
-                              }
-                            }
-                          : null,
+                      onPressed: () {
+                        if (loginFormKey.currentState!.validate()) {
+                          controller.signInUserPerEmail(
+                              email: controller.emailController.text,
+                              password: controller.passwordController.text);
+                        }
+                      },
                     ),
               SizedBox(
                 height: 10.h,

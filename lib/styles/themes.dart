@@ -93,6 +93,12 @@ class Themes {
         color: AppColors.kBlackColor,
         fontFamily: 'Mulish',
       ),
+      bodyLarge: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w700,
+        color: AppColors.kBlackColor,
+        fontFamily: 'Mulish',
+      ),
       bodyMedium: TextStyle(
         fontSize: 14.sp,
         fontWeight: FontWeight.w600,
@@ -114,7 +120,7 @@ class Themes {
       labelLarge: TextStyle(
         fontSize: 16.sp,
         fontWeight: FontWeight.w600,
-        color: AppColors.kWhiteColor,
+        color: AppColors.kBlackColor,
         fontFamily: 'Mulish',
       ),
       headlineMedium: TextStyle(
@@ -265,6 +271,12 @@ class Themes {
         fontSize: 16.sp,
         fontWeight: FontWeight.w600,
         color: AppColors.kWhiteColor,
+        fontFamily: 'Mulish',
+      ),
+      bodyLarge: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w700,
+        color: AppColors.kWhitePure,
         fontFamily: 'Mulish',
       ),
       bodyMedium: TextStyle(

@@ -1,8 +1,13 @@
+import 'dart:developer';
+
+import 'package:chateo/models/user_models.dart';
 import 'package:chateo/screens/home/chats_view.dart';
 import 'package:chateo/screens/home/contacts_view.dart';
 import 'package:chateo/screens/home/settings.view.dart';
 import 'package:chateo/styles/colors.dart';
 import 'package:chateo/utils/assets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,7 +18,9 @@ class HomeController extends GetxController {
   late PersistentTabController tabController;
   late TextEditingController searchController;
   RxBool isDarkMode = Get.isDarkMode.obs;
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  RxBool loadingUsersList = false.obs;
   @override
   void onInit() {
     tabController = PersistentTabController(initialIndex: 0);
@@ -113,5 +120,29 @@ class HomeController extends GetxController {
         icon: Container(),
       ),
     ];
+  }
+
+  List<UserModel> users = [];
+
+  Future<void> getUsers() async {
+    try {
+      loadingUsersList(true);
+      if (users.isEmpty) {
+        await firestore.collection('users').get().then((value) {
+          for (var element in value.docs) {
+            if (element.data()['id'] != auth.currentUser!.uid) {
+              users.add(UserModel.fromJson(element.data()));
+            }
+          }
+        });
+        update();
+        log('getUsers');
+      }
+    } on Exception catch (e) {
+      log(e.toString());
+    } finally {
+      loadingUsersList(false);
+      update();
+    }
   }
 }

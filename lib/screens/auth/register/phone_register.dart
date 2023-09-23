@@ -1,5 +1,5 @@
 import 'package:chateo/routes/app_routes.dart';
-import 'package:chateo/screens/auth/register/register_controller.dart';
+import 'package:chateo/screens/auth/register/reg_controller.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/widgets/global_appbar.dart';
 import 'package:chateo/widgets/phone_field.dart';
@@ -7,11 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class PhoneRegister extends GetView<RegisterController> {
+class PhoneRegister extends StatefulWidget {
   const PhoneRegister({super.key});
 
   @override
+  State<PhoneRegister> createState() => _PhoneRegisterState();
+}
+
+class _PhoneRegisterState extends State<PhoneRegister> {
+  @override
   Widget build(BuildContext context) {
+    GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
     Get.put(RegisterController());
     var style = Theme.of(context);
 
@@ -24,7 +30,7 @@ class PhoneRegister extends GetView<RegisterController> {
           },
         ),
       ),
-      body: GetBuilder(
+      body: GetX(
         init: RegisterController(),
         initState: (_) {},
         builder: (controller) => Padding(
@@ -54,7 +60,7 @@ class PhoneRegister extends GetView<RegisterController> {
                         height: 40.h,
                       ),
                       Form(
-                        key: controller.phoneFormKey,
+                        key: phoneFormKey,
                         child: PhoneField(
                           controller: controller.phoneController,
                           onChanged: (phone) {
@@ -66,10 +72,8 @@ class PhoneRegister extends GetView<RegisterController> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 8.h,
-              ),
-              controller.loading.value
+              SizedBox(height: 10.h),
+              controller.loadingPhoneAuth.value
                   ? Center(
                       child: CircularProgressIndicator(
                       color: Theme.of(context).primaryColor,
@@ -78,17 +82,13 @@ class PhoneRegister extends GetView<RegisterController> {
                       children: [
                         AppButtonPrimary(
                           title: 'Continue',
-                          onPressed: controller.phoneController.text.isNotEmpty
-                              ? () {
-                                  if (controller.phoneFormKey.currentState!
-                                      .validate()) {
-                                    controller.phoneAuth(
-                                      phoneNumber:
-                                          controller.completeNumber.value,
-                                    );
-                                  }
-                                }
-                              : null,
+                          onPressed: () {
+                            if (phoneFormKey.currentState!.validate()) {
+                              controller.phoneAuth(
+                                phoneNumber: controller.completeNumber.value,
+                              );
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 10.h,
@@ -102,7 +102,7 @@ class PhoneRegister extends GetView<RegisterController> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(AppRoutes.LOGIN);
+                                Get.offAndToNamed(AppRoutes.LOGIN);
                               },
                               child: Text(
                                 'Log in',

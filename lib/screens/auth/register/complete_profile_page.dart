@@ -1,5 +1,5 @@
-import 'package:chateo/routes/app_routes.dart';
-import 'package:chateo/screens/auth/register/register_controller.dart';
+import 'package:chateo/screens/auth/register/reg_controller.dart';
+import 'package:chateo/styles/colors.dart';
 import 'package:chateo/utils/assets.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/utils/text_field.dart';
@@ -8,15 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class CompleteProfilePage extends StatelessWidget {
+class CompleteProfilePage extends StatefulWidget {
   const CompleteProfilePage({super.key});
 
   @override
+  State<CompleteProfilePage> createState() => _CompleteProfilePageState();
+}
+
+class _CompleteProfilePageState extends State<CompleteProfilePage> {
+  @override
   Widget build(BuildContext context) {
+    GlobalKey<FormState> completeProfileFormKey = GlobalKey<FormState>();
+
     var style = Theme.of(context);
     return Scaffold(
       appBar: GlobalAppBar(
-        title: 'Your Profile',
+        title: 'Complete Profile',
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_outlined,
@@ -37,7 +44,7 @@ class CompleteProfilePage extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Form(
-                    key: controller.completeProfileFormKey,
+                    key: completeProfileFormKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -146,27 +153,45 @@ class CompleteProfilePage extends StatelessWidget {
                           prefixIcon: const Icon(Icons.person),
                           controller: controller.firstNameController,
                           type: TextInputType.name,
-                          hintText: 'First Name (Required)',
+                          hintText: 'First Name',
                         ),
                         SizedBox(
                           height: 12.h,
                         ),
                         AppTextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Last Name Is Required';
+                            }
+                            return null;
+                          },
                           prefixIcon: const Icon(Icons.person),
                           controller: controller.lastNameController,
                           type: TextInputType.name,
-                          hintText: 'Last Name (Optional)',
+                          hintText: 'Last Name',
                         ),
                         SizedBox(
                           height: 12.h,
                         ),
-                        AppTextFormField(
-                          prefixIcon: const Icon(Icons.phone_android_sharp),
-                          controller: controller.completeNumberController,
-                          type: TextInputType.name,
-                          enabled: false,
-                          hintText: 'Phone Number',
+                        if (controller.emailController.text.isNotEmpty)
+                          AppTextFormField(
+                            prefixIcon: const Icon(Icons.email_outlined),
+                            controller: controller.emailController,
+                            type: TextInputType.name,
+                            enabled: false,
+                            hintText: 'E-mail',
+                          ),
+                        SizedBox(
+                          height: 12.h,
                         ),
+                        if (controller.completeNumberController.text.isNotEmpty)
+                          AppTextFormField(
+                            prefixIcon: const Icon(Icons.phone_android_sharp),
+                            controller: controller.completeNumberController,
+                            type: TextInputType.name,
+                            enabled: false,
+                            hintText: 'Phone Number',
+                          ),
                       ],
                     ),
                   ),
@@ -175,14 +200,34 @@ class CompleteProfilePage extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              AppButtonPrimary(
-                  title: 'Save',
-                  onPressed: () {
-                    if (controller.completeProfileFormKey.currentState!
-                        .validate()) {
-                      Get.toNamed(AppRoutes.HOME);
-                    }
-                  }),
+              controller.loadingSaveProfile.isTrue
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : AppButtonPrimary(
+                      title: 'Start Messaging',
+                      onPressed: () async {
+                        if (completeProfileFormKey.currentState!.validate()) {
+                          if (controller.imageFile.path != '') {
+                            controller.saveProfile();
+                          } else {
+                            Get.showSnackbar(
+                              const GetSnackBar(
+                                margin: EdgeInsets.all(20),
+                                borderRadius: 10.0,
+                                message: 'Please upload a profile image',
+                                snackPosition: SnackPosition.BOTTOM,
+                                icon: Icon(
+                                  Icons.upload,
+                                  color: AppColors.kGreyColor,
+                                ),
+                                duration: Duration(seconds: 3),
+                                isDismissible: true,
+                              ),
+                            );
+                          }
+                        }
+                      }),
             ],
           ),
         ),

@@ -1,4 +1,4 @@
-import 'package:chateo/screens/auth/register/register_controller.dart';
+import 'package:chateo/screens/auth/register/reg_controller.dart';
 import 'package:chateo/styles/colors.dart';
 import 'package:chateo/widgets/global_appbar.dart';
 import 'package:flutter/material.dart';

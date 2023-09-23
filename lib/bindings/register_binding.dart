@@ -1,4 +1,4 @@
-import 'package:chateo/screens/auth/register/register_controller.dart';
+import 'package:chateo/screens/auth/register/reg_controller.dart';
 import 'package:get/get.dart';
 
 class RegisterBinding implements Bindings {

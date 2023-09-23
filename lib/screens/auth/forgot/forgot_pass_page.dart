@@ -1,4 +1,3 @@
-import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/auth/forgot/forgot_pass_controller.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/utils/text_field.dart';
@@ -8,11 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ForgotPassPage extends GetView<ForgotPasswordController> {
+class ForgotPassPage extends StatefulWidget {
   const ForgotPassPage({super.key});
 
   @override
+  State<ForgotPassPage> createState() => _ForgotPassPageState();
+}
+
+class _ForgotPassPageState extends State<ForgotPassPage> {
+  @override
   Widget build(BuildContext context) {
+    GlobalKey<FormState> forgotFormKey = GlobalKey<FormState>();
+
     Get.put(ForgotPasswordController());
     var style = Theme.of(context);
 
@@ -55,7 +61,7 @@ class ForgotPassPage extends GetView<ForgotPasswordController> {
                         height: 40.h,
                       ),
                       Form(
-                        key: controller.forgotFormKey,
+                        key: forgotFormKey,
                         child: Column(
                           children: [
                             AppTextFormField(
@@ -85,18 +91,18 @@ class ForgotPassPage extends GetView<ForgotPasswordController> {
               controller.loading.value
                   ? Center(
                       child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ))
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    )
                   : AppButtonPrimary(
-                      title: 'Log in',
-                      onPressed: controller.emailController.text.isNotEmpty
-                          ? () {
-                              if (controller.forgotFormKey.currentState!
-                                  .validate()) {
-                                Get.toNamed(AppRoutes.WELCOME);
-                              }
-                            }
-                          : null,
+                      title: 'Reset Password',
+                      onPressed: () {
+                        if (forgotFormKey.currentState!.validate()) {
+                          controller.sentResetPasswordEmail(
+                              emailAddress:
+                                  controller.emailController.text.trim());
+                        }
+                      },
                     ),
               SizedBox(
                 height: 10.h,

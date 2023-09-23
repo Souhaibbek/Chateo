@@ -1,6 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:chateo/models/user_models.dart';
 import 'package:chateo/routes/app_routes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,23 +14,24 @@ class RegisterController extends GetxController {
   RxString completeNumber = ''.obs;
   RxString verifId = ''.obs;
   RxBool loadingOtp = false.obs;
-  RxBool loading = false.obs;
+  RxBool loadingPhoneAuth = false.obs;
+  RxBool loadingEmailAuth = false.obs;
+  RxBool loadingSaveProfile = false.obs;
   RxBool isInvisible = true.obs;
 
   IconData visiblilityIcon = Icons.visibility_rounded;
-  GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
-  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
-  GlobalKey<FormState> completeProfileFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController password2Controller = TextEditingController();
-
   TextEditingController phoneController = TextEditingController();
   TextEditingController completeNumberController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
+  bool emailIsFilled = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseStorage storage = FirebaseStorage.instance;
   final ImagePicker picker = ImagePicker();
   File imageFile = File('');
   RxBool isPicked = false.obs;
@@ -53,7 +57,34 @@ class RegisterController extends GetxController {
       visiblilityIcon = Icons.visibility_rounded;
       update();
     }
-    log('message');
+  }
+
+  Future<void> registerWithEmailAndPassword(
+      {required String email, required String password}) async {
+    try {
+      loadingEmailAuth(true);
+
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await credential.user?.sendEmailVerification();
+
+      Get.offNamed(AppRoutes.COMPLETEPROFILE);
+      update();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        log('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        log('The account already exists for that email.');
+      }
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      loadingEmailAuth(false);
+      update();
+    }
   }
 
   void getCompleteNumber(PhoneNumber phone) {
@@ -64,7 +95,7 @@ class RegisterController extends GetxController {
 
   Future<void> phoneAuth({required String phoneNumber}) async {
     try {
-      loading(true);
+      loadingPhoneAuth(true);
       update();
 
       await FirebaseAuth.instance.verifyPhoneNumber(
@@ -78,7 +109,7 @@ class RegisterController extends GetxController {
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } finally {
-      loading(false);
+      loadingPhoneAuth(false);
       update();
     }
   }
@@ -96,16 +127,21 @@ class RegisterController extends GetxController {
       await auth.signInWithCredential(credential);
 
       if (auth.currentUser != null) {
-        await Future.delayed(const Duration(seconds: 3));
-        Get.toNamed(AppRoutes.COMPLETEPROFILE);
+        Get.offNamed(AppRoutes.COMPLETEPROFILE);
       }
       update();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'The verification code from SMS/TOTP is invalid. Please check and enter the correct verification code again.',
-        snackPosition: SnackPosition.BOTTOM,
-        isDismissible: true,
+      Get.showSnackbar(
+        const GetSnackBar(
+          margin: EdgeInsets.all(20),
+          borderRadius: 10.0,
+          message:
+              'The verification code from SMS/TOTP is invalid. Please check and enter the correct verification code again.',
+          snackPosition: SnackPosition.BOTTOM,
+          icon: Icon(Icons.email_outlined),
+          duration: Duration(seconds: 3),
+          isDismissible: true,
+        ),
       );
     } finally {
       loadingOtp(false);
@@ -139,5 +175,49 @@ class RegisterController extends GetxController {
       isPicked(true);
     }
     update();
+  }
+
+  Future<void> saveProfile() async {
+    try {
+      loadingSaveProfile(true);
+      String imgUrl = await uploadImage();
+
+      UserModel userModel = UserModel(
+        id: auth.currentUser!.uid,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        image: imgUrl,
+        email: emailController.text == '' ? 'N/A' : emailController.text,
+        phone:
+            completeNumberController.text == '' ? 'N/A' : completeNumber.value,
+      );
+      await createUserProfile(userModel);
+      Get.offAllNamed(AppRoutes.HOME);
+      update();
+    } on Exception catch (e) {
+      log(e.toString());
+    } finally {
+      loadingSaveProfile(false);
+      update();
+    }
+  }
+
+  Future<void> createUserProfile(UserModel userModel) async {
+    await firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .set(userModel.toJson());
+  }
+
+  Future<String> uploadImage() async {
+    String imgUrl = '';
+    await storage
+        .ref()
+        .child('users/${Uri.file(imageFile.path).pathSegments.last}')
+        .putFile(imageFile)
+        .then((value) async {
+      await value.ref.getDownloadURL().then((value) => imgUrl = value);
+    });
+    return imgUrl;
   }
 }

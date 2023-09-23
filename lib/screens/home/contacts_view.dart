@@ -1,5 +1,7 @@
 import 'package:chateo/screens/home/home_controller.dart';
+import 'package:chateo/utils/assets.dart';
 import 'package:chateo/utils/text_field.dart';
+import 'package:chateo/widgets/contacts_item_widget.dart';
 import 'package:chateo/widgets/global_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,7 +37,39 @@ class ContactsView extends StatelessWidget {
                 Icons.search,
               ),
             ),
-          )
+          ),
+          Expanded(
+            child: Obx(
+              () => controller.loadingUsersList.isTrue
+                  ? const Center(child: CircularProgressIndicator())
+                  : (controller.users.isNotEmpty)
+                      ? ListView.builder(
+                          itemCount: controller.users.length,
+                          itemBuilder: (context, index) => ContactsItemWidget(
+                            userModel: controller.users[index],
+                          ),
+                        )
+                      : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                Assets.background,
+                                width: MediaQuery.of(context).size.width * 0.6,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'No Contacts Yet!\nInvite Your Friends',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                        ),
+            ),
+          ),
         ],
       ),
     );

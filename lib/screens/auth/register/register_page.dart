@@ -1,5 +1,5 @@
 import 'package:chateo/routes/app_routes.dart';
-import 'package:chateo/screens/auth/register/register_controller.dart';
+import 'package:chateo/screens/auth/register/reg_controller.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/utils/text_field.dart';
 import 'package:chateo/widgets/global_appbar.dart';
@@ -8,11 +8,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:email_validator/email_validator.dart';
 
-class RegisterPage extends GetView<RegisterController> {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  @override
   Widget build(BuildContext context) {
+    GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
     Get.put(RegisterController());
     var style = Theme.of(context);
 
@@ -25,7 +31,7 @@ class RegisterPage extends GetView<RegisterController> {
           },
         ),
       ),
-      body: GetBuilder(
+      body: GetX(
         init: RegisterController(),
         initState: (_) {},
         builder: (controller) => Padding(
@@ -55,13 +61,14 @@ class RegisterPage extends GetView<RegisterController> {
                         height: 40.h,
                       ),
                       Form(
-                        key: controller.registerFormKey,
+                        key: registerFormKey,
                         child: Column(
                           children: [
                             AppTextFormField(
                               onChanged: (val) {
                                 controller.update();
                               },
+                              type: TextInputType.emailAddress,
                               validator: (value) {
                                 if (!EmailValidator.validate(value ?? '')) {
                                   return 'Please enter a valid email';
@@ -135,25 +142,22 @@ class RegisterPage extends GetView<RegisterController> {
                 ),
               ),
               SizedBox(
-                height: 8.h,
+                height: 10.h,
               ),
-              controller.loading.value
+              controller.loadingEmailAuth.value
                   ? Center(
                       child: CircularProgressIndicator(
                       color: Theme.of(context).primaryColor,
                     ))
                   : AppButtonPrimary(
                       title: 'Create Account',
-                      onPressed: controller.emailController.text.isNotEmpty &&
-                              controller.passwordController.text.isNotEmpty &&
-                              controller.password2Controller.text.isNotEmpty
-                          ? () {
-                              if (controller.registerFormKey.currentState!
-                                  .validate()) {
-                                Get.offAndToNamed(AppRoutes.WELCOME);
-                              }
-                            }
-                          : null,
+                      onPressed: () {
+                        if (registerFormKey.currentState!.validate()) {
+                          controller.registerWithEmailAndPassword(
+                              email: controller.emailController.text,
+                              password: controller.passwordController.text);
+                        }
+                      },
                     ),
               SizedBox(
                 height: 10.h,
@@ -167,7 +171,7 @@ class RegisterPage extends GetView<RegisterController> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppRoutes.LOGIN);
+                      Get.offAndToNamed(AppRoutes.LOGIN);
                     },
                     child: Text(
                       'Log in',

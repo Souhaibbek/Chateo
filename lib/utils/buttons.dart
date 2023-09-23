@@ -1,3 +1,4 @@
+import 'package:chateo/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -39,7 +40,7 @@ class AppButtonPrimary extends StatelessWidget {
           title,
           style: style ??
               Theme.of(context).textTheme.labelLarge!.copyWith(
-                    color: titleColor,
+                    color: titleColor ?? AppColors.kWhiteColor,
                   ),
         ),
       ),

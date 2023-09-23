@@ -30,6 +30,10 @@ class AppTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     var style = Theme.of(context);
     return TextFormField(
+      onTapOutside: (event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      textInputAction: TextInputAction.next,
       onChanged: onChanged,
       obscureText: pass,
       enabled: enabled,

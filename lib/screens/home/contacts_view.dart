@@ -24,7 +24,7 @@ class ContactsView extends StatelessWidget {
               var auth = FirebaseAuth.instance;
               await auth
                   .signOut()
-                  .then((value) => Get.offAllNamed(AppRoutes.LOGIN));
+                  .then((value) => Get.offAllNamed(AppRoutes.WELCOME));
             },
             icon: const Icon(Icons.add),
           ),

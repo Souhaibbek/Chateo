@@ -75,7 +75,7 @@ class RegisterController extends GetxController {
       );
       // await credential.user?.sendEmailVerification();
 
-      Get.offNamed(AppRoutes.COMPLETEPROFILE);
+      Get.toNamed(AppRoutes.COMPLETEPROFILE);
       update();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -175,6 +175,7 @@ class RegisterController extends GetxController {
       isPicked(true);
     }
     update();
+    Get.back();
   }
 
   /// Get from Camera
@@ -189,6 +190,7 @@ class RegisterController extends GetxController {
       isPicked(true);
     }
     update();
+    Get.back();
   }
 
   Future<void> saveProfile() async {

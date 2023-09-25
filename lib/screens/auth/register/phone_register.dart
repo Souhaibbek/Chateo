@@ -1,4 +1,3 @@
-import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/auth/register/reg_controller.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/widgets/global_appbar.dart';
@@ -7,17 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class PhoneRegister extends StatefulWidget {
+class PhoneRegister extends StatelessWidget {
   const PhoneRegister({super.key});
 
   @override
-  State<PhoneRegister> createState() => _PhoneRegisterState();
-}
-
-class _PhoneRegisterState extends State<PhoneRegister> {
-  @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
     Get.put(RegisterController());
     var style = Theme.of(context);
 
@@ -60,11 +53,17 @@ class _PhoneRegisterState extends State<PhoneRegister> {
                         height: 40.h,
                       ),
                       Form(
-                        key: phoneFormKey,
+                        key: controller.phoneFormKey,
                         child: PhoneField(
                           controller: controller.phoneController,
                           onChanged: (phone) {
                             controller.getCompleteNumber(phone);
+                          },
+                          validator: (value) {
+                            if (value == null || value.number.isEmpty) {
+                              return "Phone number required";
+                            }
+                            return '';
                           },
                         ),
                       ),
@@ -76,46 +75,22 @@ class _PhoneRegisterState extends State<PhoneRegister> {
               controller.loadingPhoneAuth.value
                   ? Center(
                       child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ))
-                  : Column(
-                      children: [
-                        AppButtonPrimary(
-                          title: 'Continue',
-                          onPressed: () {
-                            if (phoneFormKey.currentState!.validate()) {
-                              controller.phoneAuth(
-                                phoneNumber: controller.completeNumber.value,
-                              );
-                            }
-                          },
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Already has an account? ',
-                              style: style.textTheme.bodyMedium!,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.offAndToNamed(AppRoutes.LOGIN);
-                              },
-                              child: Text(
-                                'Log in',
-                                style: style.textTheme.bodyMedium!.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10.h),
-                      ],
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    )
+                  : AppButtonPrimary(
+                      title: 'Continue',
+                      onPressed: () {
+                        if (controller.phoneFormKey.currentState!.validate()) {
+                          controller.phoneAuth(
+                            phoneNumber: controller.completeNumber.value,
+                          );
+                        }
+                      },
                     ),
+              SizedBox(
+                height: 10.h,
+              ),
             ],
           ),
         ),

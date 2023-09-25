@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chateo/models/user_models.dart';
 import 'package:chateo/styles/colors.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class ContactsItemWidget extends StatelessWidget {
       splashColor: Colors.transparent,
       onTap: () {},
       child: Padding(
-        padding: EdgeInsets.fromLTRB(24.0.w, 16.0.h, 0.0.w, 16.0.h),
+        padding: EdgeInsets.fromLTRB(24.0.w, 16.0.h, 0.0.w, 0.0.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +29,8 @@ class ContactsItemWidget extends StatelessWidget {
                 color: AppColors.kBlackColor,
                 borderRadius: BorderRadius.circular(16),
                 image: DecorationImage(
-                    image: NetworkImage(userModel.image), fit: BoxFit.cover),
+                    image: CachedNetworkImageProvider(userModel.image),
+                    fit: BoxFit.cover),
               ),
             ),
             const SizedBox(

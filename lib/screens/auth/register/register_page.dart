@@ -8,17 +8,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:email_validator/email_validator.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
-}
-
-class _RegisterPageState extends State<RegisterPage> {
-  @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
     Get.put(RegisterController());
     var style = Theme.of(context);
 
@@ -61,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 40.h,
                       ),
                       Form(
-                        key: registerFormKey,
+                        key: controller.registerFormKey,
                         child: Column(
                           children: [
                             AppTextFormField(
@@ -152,7 +146,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   : AppButtonPrimary(
                       title: 'Create Account',
                       onPressed: () {
-                        if (registerFormKey.currentState!.validate()) {
+                        if (controller.registerFormKey.currentState!
+                            .validate()) {
                           controller.registerWithEmailAndPassword(
                               email: controller.emailController.text,
                               password: controller.passwordController.text);

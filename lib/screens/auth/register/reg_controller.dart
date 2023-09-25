@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:chateo/models/user_models.dart';
 import 'package:chateo/routes/app_routes.dart';
+import 'package:chateo/widgets/snackbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,8 +19,11 @@ class RegisterController extends GetxController {
   RxBool loadingEmailAuth = false.obs;
   RxBool loadingSaveProfile = false.obs;
   RxBool isInvisible = true.obs;
-
+  RxBool enableResend = false.obs;
   IconData visiblilityIcon = Icons.visibility_rounded;
+  GlobalKey<FormState> completeProfileFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -44,7 +48,7 @@ class RegisterController extends GetxController {
     emailController.dispose();
     passwordController.dispose();
     password2Controller.dispose();
-
+    log('dispoed');
     super.onClose();
   }
 
@@ -69,15 +73,21 @@ class RegisterController extends GetxController {
         email: email,
         password: password,
       );
-      await credential.user?.sendEmailVerification();
+      // await credential.user?.sendEmailVerification();
 
       Get.offNamed(AppRoutes.COMPLETEPROFILE);
       update();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        log('The password provided is too weak.');
+        showSnackBar(
+          message: 'The password provided is too weak.',
+          icon: const Icon(Icons.password_sharp),
+        );
       } else if (e.code == 'email-already-in-use') {
-        log('The account already exists for that email.');
+        showSnackBar(
+          message: 'The account already exists for that email.',
+          icon: const Icon(Icons.email_outlined),
+        );
       }
     } catch (e) {
       log(e.toString());
@@ -96,7 +106,6 @@ class RegisterController extends GetxController {
   Future<void> phoneAuth({required String phoneNumber}) async {
     try {
       loadingPhoneAuth(true);
-      update();
 
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -108,8 +117,18 @@ class RegisterController extends GetxController {
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
+      update();
+    } catch (e) {
+      showSnackBar(
+        message: e
+            .toString()
+            .substring(e.toString().indexOf(']') + 1, e.toString().length)
+            .trim(),
+        icon: const Icon(Icons.email_outlined),
+      );
     } finally {
       loadingPhoneAuth(false);
+
       update();
     }
   }
@@ -124,28 +143,23 @@ class RegisterController extends GetxController {
       );
       log(loadingOtp.value.toString());
       // Sign the user in (or link) with the credential
-      await auth.signInWithCredential(credential);
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
 
       if (auth.currentUser != null) {
-        Get.offNamed(AppRoutes.COMPLETEPROFILE);
+        userCredential.additionalUserInfo!.isNewUser
+            ? Get.offNamed(AppRoutes.COMPLETEPROFILE)
+            : Get.offAllNamed(AppRoutes.HOME);
       }
       update();
     } catch (e) {
-      Get.showSnackbar(
-        const GetSnackBar(
-          margin: EdgeInsets.all(20),
-          borderRadius: 10.0,
-          message:
-              'The verification code from SMS/TOTP is invalid. Please check and enter the correct verification code again.',
-          snackPosition: SnackPosition.BOTTOM,
-          icon: Icon(Icons.email_outlined),
-          duration: Duration(seconds: 3),
-          isDismissible: true,
-        ),
+      showSnackBar(
+        message:
+            'The verification code from SMS/TOTP is invalid. Please check and enter the correct verification code again.',
+        icon: const Icon(Icons.sms_failed_sharp),
       );
     } finally {
       loadingOtp(false);
-      log(loadingOtp.value.toString());
     }
   }
 
@@ -219,5 +233,16 @@ class RegisterController extends GetxController {
       await value.ref.getDownloadURL().then((value) => imgUrl = value);
     });
     return imgUrl;
+  }
+
+  void enableResendCode() {
+    enableResend(true);
+    update();
+  }
+
+  void disableResendCode() {
+    enableResend(false);
+
+    update();
   }
 }

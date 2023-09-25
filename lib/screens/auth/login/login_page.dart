@@ -8,18 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-
     Get.put(LoginController());
     var style = Theme.of(context);
 
@@ -62,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 40.h,
                       ),
                       Form(
-                        key: loginFormKey,
+                        key: controller.loginFormKey,
                         child: Column(
                           children: [
                             AppTextFormField(
@@ -147,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                   : AppButtonPrimary(
                       title: 'Log in',
                       onPressed: () {
-                        if (loginFormKey.currentState!.validate()) {
+                        if (controller.loginFormKey.currentState!.validate()) {
                           controller.signInUserPerEmail(
                               email: controller.emailController.text,
                               password: controller.passwordController.text);

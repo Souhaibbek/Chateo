@@ -19,6 +19,7 @@ class HomePage extends GetView<HomeController> {
           extendBody: true,
           body: PersistentTabView(
             context,
+
             controller: controller.tabController,
             screens: controller.buildScreens(),
             items: controller.navBarsItems(),

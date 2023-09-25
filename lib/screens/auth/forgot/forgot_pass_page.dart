@@ -7,18 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ForgotPassPage extends StatefulWidget {
+class ForgotPassPage extends StatelessWidget {
   const ForgotPassPage({super.key});
 
   @override
-  State<ForgotPassPage> createState() => _ForgotPassPageState();
-}
-
-class _ForgotPassPageState extends State<ForgotPassPage> {
-  @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> forgotFormKey = GlobalKey<FormState>();
-
     Get.put(ForgotPasswordController());
     var style = Theme.of(context);
 
@@ -61,7 +54,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                         height: 40.h,
                       ),
                       Form(
-                        key: forgotFormKey,
+                        key: controller.forgotFormKey,
                         child: Column(
                           children: [
                             AppTextFormField(
@@ -97,7 +90,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                   : AppButtonPrimary(
                       title: 'Reset Password',
                       onPressed: () {
-                        if (forgotFormKey.currentState!.validate()) {
+                        if (controller.forgotFormKey.currentState!.validate()) {
                           controller.sentResetPasswordEmail(
                               emailAddress:
                                   controller.emailController.text.trim());

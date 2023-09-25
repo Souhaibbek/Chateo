@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -8,10 +10,11 @@ class PhoneField extends StatelessWidget {
     super.key,
     this.controller,
     this.onChanged,
+    this.validator,
   });
   final TextEditingController? controller;
   final Function(PhoneNumber)? onChanged;
-
+  final FutureOr<String?> Function(PhoneNumber?)? validator;
   @override
   Widget build(BuildContext context) {
     var style = Theme.of(context);
@@ -19,6 +22,7 @@ class PhoneField extends StatelessWidget {
     return IntlPhoneField(
       controller: controller,
       showDropdownIcon: false,
+      autovalidateMode: AutovalidateMode.always,
       cursorColor: style.primaryColor,
       keyboardAppearance: Theme.of(context).brightness,
       keyboardType: TextInputType.phone,
@@ -61,12 +65,7 @@ class PhoneField extends StatelessWidget {
       initialCountryCode: 'TN',
       onSubmitted: (p0) {},
       onChanged: onChanged,
-      validator: (value) {
-        if (value == null || value.number.isEmpty) {
-          return "Phone number required";
-        }
-        return null;
-      },
+      validator: validator,
     );
   }
 }

@@ -1,8 +1,10 @@
+import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/home/home_controller.dart';
 import 'package:chateo/utils/assets.dart';
 import 'package:chateo/utils/text_field.dart';
 import 'package:chateo/widgets/contacts_item_widget.dart';
 import 'package:chateo/widgets/global_appbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,7 +20,12 @@ class ContactsView extends StatelessWidget {
         title: 'Contacts',
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              var auth = FirebaseAuth.instance;
+              await auth
+                  .signOut()
+                  .then((value) => Get.offAllNamed(AppRoutes.LOGIN));
+            },
             icon: const Icon(Icons.add),
           ),
         ],
@@ -32,6 +39,9 @@ class ContactsView extends StatelessWidget {
             ),
             child: AppTextFormField(
               controller: controller.searchController,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.transparent)),
               hintText: 'Search',
               prefixIcon: const Icon(
                 Icons.search,
@@ -69,6 +79,9 @@ class ContactsView extends StatelessWidget {
                           ),
                         ),
             ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
         ],
       ),

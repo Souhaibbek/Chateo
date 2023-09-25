@@ -13,6 +13,7 @@ class AppTextFormField extends StatelessWidget {
     this.enabled = true,
     this.pass = false,
     this.onChanged,
+    this.border = InputBorder.none,
   });
 
   final TextEditingController controller;
@@ -25,6 +26,7 @@ class AppTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool enabled;
   final bool pass;
+  final InputBorder border;
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +47,11 @@ class AppTextFormField extends StatelessWidget {
       style: style.textTheme.bodyMedium,
       keyboardType: type,
       decoration: InputDecoration(
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
+        border: border,
+        focusedBorder: border,
+        enabledBorder: border,
+        errorBorder: border,
+        disabledBorder: border,
         contentPadding:
             const EdgeInsets.only(left: 15, bottom: 11, top: 14, right: 15),
         fillColor: style.primaryColorLight,

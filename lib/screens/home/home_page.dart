@@ -12,7 +12,7 @@ class HomePage extends GetView<HomeController> {
     return GetBuilder(
       init: HomeController(),
       initState: (state) {
-        controller.getUsers();
+        controller.getContactsList();
       },
       builder: (controller) {
         return Scaffold(

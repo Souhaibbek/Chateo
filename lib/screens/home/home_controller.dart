@@ -20,7 +20,8 @@ class HomeController extends GetxController {
   RxBool isDarkMode = Get.isDarkMode.obs;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  RxBool loadingUsersList = false.obs;
+  RxBool loadingContactsList = false.obs;
+
   @override
   void onInit() {
     tabController = PersistentTabController(initialIndex: 0);
@@ -41,7 +42,6 @@ class HomeController extends GetxController {
       Get.changeThemeMode(ThemeMode.light);
     } else {
       isDarkMode.value = true;
-
       Get.changeThemeMode(ThemeMode.dark);
     }
   }
@@ -122,26 +122,28 @@ class HomeController extends GetxController {
     ];
   }
 
-  List<UserModel> users = [];
-
-  Future<void> getUsers() async {
+  List<UserModel> contacts = [];
+  late UserModel currentUserInfo;
+  Future<void> getContactsList() async {
     try {
-      loadingUsersList(true);
-      if (users.isEmpty) {
+      loadingContactsList(true);
+      if (contacts.isEmpty) {
         await firestore.collection('users').get().then((value) {
           for (var element in value.docs) {
-            if (element.data()['id'] != auth.currentUser!.uid) {
-              users.add(UserModel.fromJson(element.data()));
+            if (element.id == auth.currentUser!.uid) {
+              currentUserInfo = UserModel.fromJson(element.data());
+            } else {
+              contacts.add(UserModel.fromJson(element.data()));
             }
           }
         });
         update();
-        log('getUsers');
+        log('getContactsList');
       }
     } on Exception catch (e) {
       log(e.toString());
     } finally {
-      loadingUsersList(false);
+      loadingContactsList(false);
       update();
     }
   }

@@ -223,7 +223,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                                     Icons.upload,
                                     color: AppColors.kGreyColor,
                                   ),
-                                  duration: Duration(seconds: 3),
+                                  duration: Duration(seconds: 1),
                                   isDismissible: true,
                                 ),
                               );

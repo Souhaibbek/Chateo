@@ -1,10 +1,8 @@
-import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/home/home_controller.dart';
 import 'package:chateo/utils/assets.dart';
 import 'package:chateo/utils/text_field.dart';
 import 'package:chateo/widgets/contacts_item_widget.dart';
 import 'package:chateo/widgets/global_appbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,13 +18,10 @@ class ContactsView extends StatelessWidget {
         title: 'Contacts',
         actions: [
           IconButton(
-            onPressed: () async {
-              var auth = FirebaseAuth.instance;
-              await auth
-                  .signOut()
-                  .then((value) => Get.offAllNamed(AppRoutes.WELCOME));
+            onPressed: () {
+              controller.changeAppMode();
             },
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.swap_calls),
           ),
         ],
       ),
@@ -50,13 +45,13 @@ class ContactsView extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () => controller.loadingUsersList.isTrue
+              () => controller.loadingContactsList.isTrue
                   ? const Center(child: CircularProgressIndicator())
-                  : (controller.users.isNotEmpty)
+                  : (controller.contacts.isNotEmpty)
                       ? ListView.builder(
-                          itemCount: controller.users.length,
+                          itemCount: controller.contacts.length,
                           itemBuilder: (context, index) => ContactsItemWidget(
-                            userModel: controller.users[index],
+                            userModel: controller.contacts[index],
                           ),
                         )
                       : Center(

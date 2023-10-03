@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:chateo/models/user_models.dart';
+import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/home/chats_view.dart';
 import 'package:chateo/screens/home/contacts_view.dart';
-import 'package:chateo/screens/home/settings.view.dart';
+import 'package:chateo/screens/home/settings/settings.view.dart';
+import 'package:chateo/screens/welcome/welcome_page.dart';
 import 'package:chateo/styles/colors.dart';
 import 'package:chateo/utils/assets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -146,5 +148,10 @@ class HomeController extends GetxController {
       loadingContactsList(false);
       update();
     }
+  }
+
+  void logOut() {
+    FirebaseAuth.instance.signOut();
+    Get.offAllNamed(AppRoutes.WELCOME);
   }
 }

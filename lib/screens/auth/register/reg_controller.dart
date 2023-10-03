@@ -32,6 +32,8 @@ class RegisterController extends GetxController {
   TextEditingController completeNumberController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
+
   bool emailIsFilled = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -44,7 +46,7 @@ class RegisterController extends GetxController {
     phoneController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
-
+    userNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     password2Controller.dispose();
@@ -202,6 +204,7 @@ class RegisterController extends GetxController {
         id: auth.currentUser!.uid,
         firstName: firstNameController.text,
         lastName: lastNameController.text,
+        userName: userNameController.text,
         image: imgUrl,
         email: emailController.text == '' ? 'N/A' : emailController.text,
         phone:

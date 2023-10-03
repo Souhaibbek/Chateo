@@ -23,6 +23,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
     var style = Theme.of(context);
     return Scaffold(
       appBar: GlobalAppBar(
+        height: 40,
         title: 'Complete Profile',
         leading: IconButton(
           icon: const Icon(
@@ -37,7 +38,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         init: RegisterController(),
         initState: (_) {},
         builder: (controller) => Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -151,7 +152,7 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                             }
                             return null;
                           },
-                          prefixIcon: const Icon(Icons.person),
+                          prefixIcon: const Icon(Icons.person_sharp),
                           controller: controller.firstNameController,
                           type: TextInputType.name,
                           hintText: 'First Name',
@@ -166,10 +167,26 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                             }
                             return null;
                           },
-                          prefixIcon: const Icon(Icons.person),
+                          prefixIcon: const Icon(Icons.person_sharp),
                           controller: controller.lastNameController,
                           type: TextInputType.name,
                           hintText: 'Last Name',
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        AppTextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'User Name Is Required';
+                            }
+                            return null;
+                          },
+                          prefixIcon:
+                              const Icon(Icons.supervised_user_circle_rounded),
+                          controller: controller.userNameController,
+                          type: TextInputType.name,
+                          hintText: 'User Name',
                         ),
                         SizedBox(
                           height: 12.h,
@@ -203,8 +220,16 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
               ),
               Obx(
                 () => controller.loadingSaveProfile.isTrue
-                    ? const Center(
-                        child: CircularProgressIndicator(),
+                    ? Center(
+                        child: Column(
+                          children: [
+                            const CircularProgressIndicator(),
+                            Text(
+                              'Creating account ...',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            )
+                          ],
+                        ),
                       )
                     : AppButtonPrimary(
                         title: 'Start Messaging',

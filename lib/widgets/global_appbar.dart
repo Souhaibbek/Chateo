@@ -8,9 +8,11 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.leading,
     this.color,
+    this.height = 80,
   });
 
   final String? title;
+  final double height;
   final bool centerTitle;
   final List<Widget>? actions;
   final Widget? leading;
@@ -31,5 +33,5 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(80);
+  Size get preferredSize => Size.fromHeight(height);
 }

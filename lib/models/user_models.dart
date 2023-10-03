@@ -4,6 +4,8 @@ class UserModel {
   late String email;
   late String phone;
   late String id;
+  late String userName;
+
   // late bool isVerify;
   late String image;
 
@@ -14,6 +16,7 @@ class UserModel {
     required this.id,
     required this.image,
     required this.lastName,
+    required this.userName,
     // required this.isVerify,
   });
 
@@ -21,6 +24,7 @@ class UserModel {
     id = json['id'];
     firstName = json['firstName'];
     lastName = json['lastName'];
+    userName = json['userName'];
     image = json['image'];
     email = json['email'];
     phone = json['phone'];
@@ -34,6 +38,8 @@ class UserModel {
       'phone': phone,
       'image': image,
       'lastName': lastName,
+      'userName': userName,
+
       // 'isverify': isVerify,
     };
   }

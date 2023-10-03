@@ -202,7 +202,7 @@ class WelcomePage extends GetView<WelcomeController> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 24.0.w),
                           child: AppButtonPrimary(
-                            title: 'Sign up with E-mail',
+                            title: 'Sign up withn mail',
                             titleColor: AppColors.kBlackColor,
                             color: AppColors.kWhitePure,
                             onPressed: () => controller.registerEmail(),

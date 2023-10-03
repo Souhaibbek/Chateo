@@ -11,4 +11,8 @@ class AppColors {
   static const Color kOrangeColor = Color(0xffFFA934);
   static const Color kWhitePure = Color(0xffFFFFff);
   static const Color kBlackPure = Color(0xff000000);
+  static const Color kGreyPure = Color(0xff797C7B);
+  static const Color kGrey2 = Color(0xffF2F8F7);
+  static const Color kBackBlack = Color.fromARGB(255, 10, 0, 17);
+  static const Color kBackIcon = Color.fromARGB(255, 14, 0, 42);
 }

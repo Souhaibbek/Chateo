@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:chateo/routes/app_pages.dart';
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/styles/themes.dart';

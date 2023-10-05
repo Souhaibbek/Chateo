@@ -1,8 +1,8 @@
-// ignore_for_file: file_names
-
 import 'package:chateo/screens/home/home_controller.dart';
 import 'package:chateo/screens/home/settings/account_info_page.dart';
+import 'package:chateo/screens/home/settings/appearence_page.dart';
 import 'package:chateo/widgets/circular_icon_widget.dart';
+import 'package:chateo/widgets/logout_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,7 +15,6 @@ class SettingsMenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeController controller = Get.find();
-    var style = Theme.of(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -24,16 +23,18 @@ class SettingsMenuWidget extends StatelessWidget {
             title: 'Account info',
             icon: Icons.supervisor_account_outlined,
             onTap: () {
-              Get.bottomSheet(
-                const AccountInfoPage(),
-                backgroundColor: Colors.transparent,
-                barrierColor: Colors.transparent,
-                clipBehavior: Clip.hardEdge,
+              showBottomSheet(
+                elevation: 20,
+                context: context,
                 shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(25.0),
                   ),
+                ),
+                clipBehavior: Clip.antiAlias,
+                builder: (context) => const AccountInfoPage(),
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.5,
                 ),
               );
             },
@@ -54,7 +55,22 @@ class SettingsMenuWidget extends StatelessWidget {
             context,
             title: 'Appearance',
             icon: Icons.light_mode_outlined,
-            onTap: () {},
+            onTap: () {
+              showBottomSheet(
+                elevation: 20,
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(25.0),
+                  ),
+                ),
+                clipBehavior: Clip.antiAlias,
+                builder: (context) => const AppearencePage(),
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                ),
+              );
+            },
           ),
           SizedBox(
             height: 10.0.h,
@@ -72,48 +88,9 @@ class SettingsMenuWidget extends StatelessWidget {
             context,
             title: 'Log out',
             icon: Icons.logout_outlined,
+            iconColor: Colors.red,
             onTap: () {
-              Get.defaultDialog(
-                title: 'Log out',
-                titleStyle: style.textTheme.titleLarge,
-                middleText: 'Are you sure?',
-                middleTextStyle: style.textTheme.bodyMedium,
-                contentPadding: const EdgeInsets.all(25),
-                actions: [
-                  GestureDetector(
-                    onTap: () => controller.logOut(),
-                    child: Container(
-                      height: 40,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: style.hintColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                          child: Text(
-                        'Yes',
-                        style: style.textTheme.bodyLarge,
-                      )),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      height: 40,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: style.primaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                          child: Text(
-                        'No',
-                        style: style.textTheme.bodyLarge,
-                      )),
-                    ),
-                  ),
-                ],
-              );
+              logOutAlertDialog(controller, context);
             },
           ),
           SizedBox(
@@ -123,32 +100,48 @@ class SettingsMenuWidget extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget settingsMenuItem(BuildContext context,
-    {required String title,
-    required void Function() onTap,
-    required IconData icon}) {
-  var style = Theme.of(context);
-  return InkWell(
-    onTap: onTap,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        CircularIconWidget(
-          icon: icon,
-          onTap: () {},
-          color: style.primaryColorLight,
-          iconColor: style.hintColor,
+  void settingsMenuItemBottomSheet(Widget widget) {
+    Get.bottomSheet(
+      widget,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.transparent,
+      clipBehavior: Clip.hardEdge,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
-        SizedBox(
-          width: 10.0.w,
-        ),
-        Text(
-          title,
-          style: style.textTheme.headlineMedium,
-        ),
-      ],
-    ),
-  );
+      ),
+    );
+  }
+
+  Widget settingsMenuItem(BuildContext context,
+      {required String title,
+      Color? iconColor,
+      required void Function() onTap,
+      required IconData icon}) {
+    var style = Theme.of(context);
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircularIconWidget(
+            icon: icon,
+            onTap: () {},
+            color: style.primaryColorLight,
+            iconColor: iconColor ?? style.hintColor,
+          ),
+          SizedBox(
+            width: 10.0.w,
+          ),
+          Text(
+            title,
+            style: style.textTheme.headlineMedium,
+          ),
+        ],
+      ),
+    );
+  }
 }

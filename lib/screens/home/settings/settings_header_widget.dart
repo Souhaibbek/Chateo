@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chateo/models/user_models.dart';
+import 'package:chateo/screens/home/home_controller.dart';
 import 'package:chateo/styles/colors.dart';
 import 'package:chateo/widgets/circular_icon_widget.dart';
 import 'package:flutter/material.dart';
@@ -16,34 +17,40 @@ class SettingsHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HomeController controller = Get.find();
     var style = Theme.of(context);
-    return Center(
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 50.0,
-            backgroundImage: CachedNetworkImageProvider(
-              currentUserInfo.image,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.4,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 50.0,
+              backgroundImage: CachedNetworkImageProvider(
+                currentUserInfo.image,
+              ),
             ),
-          ),
-          Text(
-            '${currentUserInfo.firstName.capitalize} ${currentUserInfo.lastName.capitalize}',
-            style: style.textTheme.titleMedium!
-                .copyWith(color: AppColors.kWhitePure),
-          ),
-          Text(
-              '@${currentUserInfo.firstName.capitalize}${currentUserInfo.lastName.capitalize}',
-              style: style.textTheme.bodySmall!.copyWith(
-                color: AppColors.kGreyColor,
-              )),
-          SizedBox(
-            height: 10.h,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularIconWidget(
-                  icon: Icons.copy,
+            Text(
+              '${currentUserInfo.firstName.capitalize} ${currentUserInfo.lastName.capitalize}',
+              style: style.textTheme.titleMedium!
+                  .copyWith(color: AppColors.kWhitePure),
+            ),
+            Text('@${currentUserInfo.userName}',
+                style: style.textTheme.bodySmall!.copyWith(
+                  color: AppColors.kGreyColor,
+                )),
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularIconWidget(icon: Icons.copy, onTap: () {}),
+                SizedBox(
+                  width: 20.0.w,
+                ),
+                CircularIconWidget(
                   onTap: () {
                     Get.bottomSheet(
                       isDismissible: true,
@@ -56,7 +63,7 @@ class SettingsHeaderWidget extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                // await controller.getFromGallery();
+                                await controller.getFromGallery();
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +81,7 @@ class SettingsHeaderWidget extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                // await controller.getFromCamera();
+                                await controller.getFromCamera();
                               },
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -94,17 +101,13 @@ class SettingsHeaderWidget extends StatelessWidget {
                         ),
                       ),
                     );
-                  }),
-              SizedBox(
-                width: 20.0.w,
-              ),
-              CircularIconWidget(
-                onTap: () {},
-                icon: Icons.camera_alt,
-              ),
-            ],
-          ),
-        ],
+                  },
+                  icon: Icons.camera_alt,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

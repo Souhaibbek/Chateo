@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:developer';
 import 'dart:io';
 import 'package:chateo/models/user_models.dart';
@@ -195,6 +197,19 @@ class RegisterController extends GetxController {
     Get.back();
   }
 
+  //upload image
+  Future<String> uploadImage() async {
+    String imgUrl = '';
+    await storage
+        .ref()
+        .child('users/${Uri.file(imageFile.path).pathSegments.last}')
+        .putFile(imageFile)
+        .then((value) async {
+      await value.ref.getDownloadURL().then((value) => imgUrl = value);
+    });
+    return imgUrl;
+  }
+
   Future<void> saveProfile() async {
     try {
       loadingSaveProfile(true);
@@ -226,18 +241,6 @@ class RegisterController extends GetxController {
         .collection('users')
         .doc(auth.currentUser!.uid)
         .set(userModel.toJson());
-  }
-
-  Future<String> uploadImage() async {
-    String imgUrl = '';
-    await storage
-        .ref()
-        .child('users/${Uri.file(imageFile.path).pathSegments.last}')
-        .putFile(imageFile)
-        .then((value) async {
-      await value.ref.getDownloadURL().then((value) => imgUrl = value);
-    });
-    return imgUrl;
   }
 
   void enableResendCode() {

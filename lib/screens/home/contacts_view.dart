@@ -4,7 +4,6 @@ import 'package:chateo/utils/text_field.dart';
 import 'package:chateo/widgets/contacts_item_widget.dart';
 import 'package:chateo/widgets/global_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ContactsView extends StatelessWidget {
@@ -29,8 +28,8 @@ class ContactsView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 24.0.w,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
             ),
             child: AppTextFormField(
               controller: controller.searchController,

@@ -9,7 +9,9 @@ class Themes {
   static ThemeData lightTheme = ThemeData(
     // main colors
     scaffoldBackgroundColor: AppColors.kWhitePure,
-
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.transparent,
+    ),
     useMaterial3: true,
     brightness: Brightness.light,
 
@@ -183,7 +185,9 @@ class Themes {
   static ThemeData darkTheme = ThemeData(
     // main colors
     scaffoldBackgroundColor: AppColors.kBlackColor,
-
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.transparent,
+    ),
     useMaterial3: true,
     brightness: Brightness.dark,
 

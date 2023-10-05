@@ -22,13 +22,13 @@ class AccountInfoPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
               accountInfoItem(
                 context,
                 title: 'User Name',
-                value: '@${currentUserInfo.userName.capitalize}',
+                value: '@${currentUserInfo.userName.toLowerCase()}',
               ),
               accountInfoItem(
                 context,

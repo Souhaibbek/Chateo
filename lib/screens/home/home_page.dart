@@ -1,3 +1,4 @@
+import 'package:chateo/constants.dart';
 import 'package:chateo/screens/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,8 +22,8 @@ class HomePage extends GetView<HomeController> {
             context,
 
             controller: controller.tabController,
-            screens: controller.buildScreens(),
-            items: controller.navBarsItems(),
+            screens: buildScreens(),
+            items: navBarsItems(),
             confineInSafeArea: true,
             backgroundColor:
                 Theme.of(context).primaryColorLight, // Default is Colors.white.

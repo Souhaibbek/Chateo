@@ -1,19 +1,15 @@
 import 'dart:developer';
-
+import 'dart:io';
 import 'package:chateo/models/user_models.dart';
 import 'package:chateo/routes/app_routes.dart';
-import 'package:chateo/screens/home/chats_view.dart';
-import 'package:chateo/screens/home/contacts_view.dart';
-import 'package:chateo/screens/home/settings/settings.view.dart';
-import 'package:chateo/screens/welcome/welcome_page.dart';
-import 'package:chateo/styles/colors.dart';
-import 'package:chateo/utils/assets.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class HomeController extends GetxController {
@@ -23,7 +19,10 @@ class HomeController extends GetxController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxBool loadingContactsList = false.obs;
-
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  final ImagePicker picker = ImagePicker();
+  File imageFile = File('');
+  RxBool isPicked = false.obs;
   @override
   void onInit() {
     tabController = PersistentTabController(initialIndex: 0);
@@ -46,82 +45,6 @@ class HomeController extends GetxController {
       isDarkMode.value = true;
       Get.changeThemeMode(ThemeMode.dark);
     }
-  }
-
-  List<Widget> buildScreens() {
-    return [
-      const ContactsView(),
-      const ChatsView(),
-      const SettingsView(),
-    ];
-  }
-
-  List<PersistentBottomNavBarItem> navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        title: "Contacts",
-        textStyle: TextStyle(
-          fontFamily: 'Mulish',
-          fontSize: 14.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        contentPadding: 0,
-        iconSize: 18,
-        inactiveIcon: SvgPicture.asset(
-          Assets.contactIcon,
-          colorFilter: ColorFilter.mode(
-              Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-              BlendMode.srcIn),
-        ),
-        activeColorPrimary:
-            Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
-        inactiveColorPrimary:
-            Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-        icon: Container(),
-      ),
-      PersistentBottomNavBarItem(
-        title: "Chats",
-        textStyle: TextStyle(
-          fontFamily: 'Mulish',
-          fontSize: 14.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        contentPadding: 0,
-        iconSize: 18,
-        inactiveIcon: SvgPicture.asset(
-          Assets.chatIcon,
-          colorFilter: ColorFilter.mode(
-              Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-              BlendMode.srcIn),
-        ),
-        activeColorPrimary:
-            Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
-        inactiveColorPrimary:
-            Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-        icon: Container(),
-      ),
-      PersistentBottomNavBarItem(
-        title: "Settings",
-        textStyle: TextStyle(
-          fontFamily: 'Mulish',
-          fontSize: 14.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        contentPadding: 0,
-        iconSize: 18,
-        inactiveIcon: SvgPicture.asset(
-          Assets.moreIcon,
-          colorFilter: ColorFilter.mode(
-              Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-              BlendMode.srcIn),
-        ),
-        activeColorPrimary:
-            Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
-        inactiveColorPrimary:
-            Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-        icon: Container(),
-      ),
-    ];
   }
 
   List<UserModel> contacts = [];
@@ -153,5 +76,48 @@ class HomeController extends GetxController {
   void logOut() {
     FirebaseAuth.instance.signOut();
     Get.offAllNamed(AppRoutes.WELCOME);
+  }
+
+  /// Get from gallery
+  Future<void> getFromGallery() async {
+    XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (image != null) {
+      imageFile = File(image.path);
+      isPicked(true);
+    }
+    update();
+    Get.back();
+  }
+
+  /// Get from Camera
+  Future<void> getFromCamera() async {
+    XFile? image = await picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (image != null) {
+      imageFile = File(image.path);
+      isPicked(true);
+    }
+    update();
+    Get.back();
+  }
+
+  //upload image
+  Future<String> uploadImage() async {
+    String imgUrl = '';
+    await storage
+        .ref()
+        .child('users/${Uri.file(imageFile.path).pathSegments.last}')
+        .putFile(imageFile)
+        .then((value) async {
+      await value.ref.getDownloadURL().then((value) => imgUrl = value);
+    });
+    return imgUrl;
   }
 }

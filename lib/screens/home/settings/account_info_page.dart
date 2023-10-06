@@ -1,3 +1,4 @@
+import 'package:chateo/models/user_models.dart';
 import 'package:chateo/screens/home/home_controller.dart';
 import 'package:chateo/widgets/account_info_item.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +7,14 @@ import 'package:get/get.dart';
 class AccountInfoPage extends StatelessWidget {
   const AccountInfoPage({
     super.key,
+    required this.userModel,
   });
+  final UserModel userModel;
 
   @override
   Widget build(BuildContext context) {
     HomeController controller = Get.find();
     var style = Theme.of(context);
-    var currentUserInfo = controller.currentUserInfo;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -28,29 +30,29 @@ class AccountInfoPage extends StatelessWidget {
               accountInfoItem(
                 context,
                 title: 'User Name',
-                value: '@${currentUserInfo.userName.toLowerCase()}',
+                value: '@${userModel.userName.toLowerCase()}',
               ),
               accountInfoItem(
                 context,
                 title: 'First Name',
-                value: '${currentUserInfo.firstName.capitalize}',
+                value: '${userModel.firstName.capitalize}',
               ),
               accountInfoItem(
                 context,
                 title: 'Last Name',
-                value: '${currentUserInfo.lastName.capitalize}',
+                value: '${userModel.lastName.capitalize}',
               ),
-              if (currentUserInfo.email.length > 3)
+              if (userModel.email.length > 3)
                 accountInfoItem(
                   context,
                   title: 'Email Address',
-                  value: currentUserInfo.email,
+                  value: userModel.email,
                 ),
-              if (currentUserInfo.phone.length > 3)
+              if (userModel.phone.length > 3)
                 accountInfoItem(
                   context,
                   title: 'Phone Number',
-                  value: currentUserInfo.phone,
+                  value: userModel.phone,
                 ),
             ],
           ),

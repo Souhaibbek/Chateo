@@ -11,9 +11,11 @@ class SettingsHeaderWidget extends StatelessWidget {
   const SettingsHeaderWidget({
     super.key,
     required this.currentUserInfo,
+    this.mini = false,
   });
 
   final UserModel currentUserInfo;
+  final bool mini;
 
   @override
   Widget build(BuildContext context) {
@@ -40,72 +42,74 @@ class SettingsHeaderWidget extends StatelessWidget {
                 style: style.textTheme.bodySmall!.copyWith(
                   color: AppColors.kGreyColor,
                 )),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularIconWidget(icon: Icons.copy, onTap: () {}),
-                SizedBox(
-                  width: 20.0.w,
-                ),
-                CircularIconWidget(
-                  onTap: () {
-                    Get.bottomSheet(
-                      isDismissible: true,
-                      backgroundColor: style.canvasColor,
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10.w),
-                        height: 80.h,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            GestureDetector(
-                              onTap: () async {
-                                await controller.getFromGallery();
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.collections,
-                                    size: 30,
-                                  ),
-                                  Text(
-                                    'Gallery',
-                                    style: style.textTheme.bodyMedium,
-                                  ),
-                                ],
+            if (!mini) ...[
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularIconWidget(icon: Icons.copy, onTap: () {}),
+                  SizedBox(
+                    width: 20.0.w,
+                  ),
+                  CircularIconWidget(
+                    onTap: () {
+                      Get.bottomSheet(
+                        isDismissible: true,
+                        backgroundColor: style.canvasColor,
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10.w),
+                          height: 80.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  await controller.getFromGallery();
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.collections,
+                                      size: 30,
+                                    ),
+                                    Text(
+                                      'Gallery',
+                                      style: style.textTheme.bodyMedium,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                await controller.getFromCamera();
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.camera_alt,
-                                    size: 30,
-                                  ),
-                                  Text(
-                                    'Camera',
-                                    style: style.textTheme.bodyMedium,
-                                  ),
-                                ],
+                              GestureDetector(
+                                onTap: () async {
+                                  await controller.getFromCamera();
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.camera_alt,
+                                      size: 30,
+                                    ),
+                                    Text(
+                                      'Camera',
+                                      style: style.textTheme.bodyMedium,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  icon: Icons.camera_alt,
-                ),
-              ],
-            ),
+                      );
+                    },
+                    icon: Icons.camera_alt,
+                  ),
+                ],
+              ),
+            ]
           ],
         ),
       ),

@@ -20,9 +20,10 @@ class PhoneField extends StatelessWidget {
     var style = Theme.of(context);
 
     return IntlPhoneField(
+      style: style.textTheme.bodyLarge,
       controller: controller,
       showDropdownIcon: false,
-      autovalidateMode: AutovalidateMode.always,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       cursorColor: style.primaryColor,
       keyboardAppearance: Theme.of(context).brightness,
       keyboardType: TextInputType.phone,
@@ -52,16 +53,14 @@ class PhoneField extends StatelessWidget {
         enabledBorder: InputBorder.none,
         errorBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
-        contentPadding:
-            const EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
         fillColor: Theme.of(context).primaryColorLight,
         filled: true,
         hintText: 'Phone Number',
         hintStyle: style.textTheme.bodyMedium!.copyWith(
           color: style.hintColor,
         ),
-        alignLabelWithHint: true,
       ),
+      textAlign: TextAlign.start,
       initialCountryCode: 'TN',
       onSubmitted: (p0) {},
       onChanged: onChanged,

@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import 'screens/home/contacts_view.dart';
+import 'screens/home/contacts/contacts_view.dart';
 
 List<Widget> buildScreens() {
   return [

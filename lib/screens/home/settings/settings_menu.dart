@@ -32,9 +32,11 @@ class SettingsMenuWidget extends StatelessWidget {
                   ),
                 ),
                 clipBehavior: Clip.antiAlias,
-                builder: (context) => const AccountInfoPage(),
+                builder: (context) => AccountInfoPage(
+                  userModel: controller.currentUserInfo,
+                ),
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                  maxHeight: MediaQuery.of(context).size.height * 0.55,
                 ),
               );
             },
@@ -67,7 +69,7 @@ class SettingsMenuWidget extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 builder: (context) => const AppearencePage(),
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                  maxHeight: MediaQuery.of(context).size.height * 0.55,
                 ),
               );
             },

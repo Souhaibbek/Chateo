@@ -40,177 +40,179 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
         builder: (controller) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: completeProfileFormKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 110,
-                          width: 110,
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            fit: StackFit.expand,
-                            children: [
-                              CircleAvatar(
-                                radius: 40,
-                                backgroundColor: style.primaryColorLight,
-                                backgroundImage: controller.isPicked.isFalse
-                                    ? null
-                                    : FileImage(controller.imageFile),
-                                child: controller.isPicked.isFalse
-                                    ? Image.asset(
-                                        Assets.userPic,
-                                        color: style.primaryColorDark,
-                                      )
-                                    : null,
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.bottomSheet(
-                                      isDismissible: true,
-                                      backgroundColor: style.canvasColor,
-                                      Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 10.w),
-                                        height: 80.h,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () async {
-                                                await controller
-                                                    .getFromGallery();
-                                              },
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.collections,
-                                                    size: 30,
-                                                  ),
-                                                  Text(
-                                                    'Gallery',
-                                                    style: style
-                                                        .textTheme.bodyMedium,
-                                                  ),
-                                                ],
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: completeProfileFormKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 110,
+                            width: 110,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              fit: StackFit.expand,
+                              children: [
+                                CircleAvatar(
+                                  radius: 40,
+                                  backgroundColor: style.primaryColorLight,
+                                  backgroundImage: controller.isPicked.isFalse
+                                      ? null
+                                      : FileImage(controller.imageFile),
+                                  child: controller.isPicked.isFalse
+                                      ? Image.asset(
+                                          Assets.userPic,
+                                          color: style.primaryColorDark,
+                                        )
+                                      : null,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.bottomSheet(
+                                        isDismissible: true,
+                                        backgroundColor: style.canvasColor,
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 10.w),
+                                          height: 80.h,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  await controller
+                                                      .getFromGallery();
+                                                },
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.collections,
+                                                      size: 30,
+                                                    ),
+                                                    Text(
+                                                      'Gallery',
+                                                      style: style
+                                                          .textTheme.bodyMedium,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                await controller
-                                                    .getFromCamera();
-                                              },
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.camera_alt,
-                                                    size: 30,
-                                                  ),
-                                                  Text(
-                                                    'Camera',
-                                                    style: style
-                                                        .textTheme.bodyMedium,
-                                                  ),
-                                                ],
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  await controller
+                                                      .getFromCamera();
+                                                },
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.camera_alt,
+                                                      size: 30,
+                                                    ),
+                                                    Text(
+                                                      'Camera',
+                                                      style: style
+                                                          .textTheme.bodyMedium,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                  child: Icon(
-                                    Icons.add_circle_sharp,
-                                    color: style.primaryColorDark,
-                                    size: 30,
+                                      );
+                                    },
+                                    child: Icon(
+                                      Icons.add_circle_sharp,
+                                      color: style.primaryColorDark,
+                                      size: 30,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 32.h,
-                        ),
-                        AppTextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'First Name Is Required';
-                            }
-                            return null;
-                          },
-                          prefixIcon: const Icon(Icons.person_sharp),
-                          controller: controller.firstNameController,
-                          type: TextInputType.name,
-                          hintText: 'First Name',
-                        ),
-                        SizedBox(
-                          height: 12.h,
-                        ),
-                        AppTextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Last Name Is Required';
-                            }
-                            return null;
-                          },
-                          prefixIcon: const Icon(Icons.person_sharp),
-                          controller: controller.lastNameController,
-                          type: TextInputType.name,
-                          hintText: 'Last Name',
-                        ),
-                        SizedBox(
-                          height: 12.h,
-                        ),
-                        AppTextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'User Name Is Required';
-                            }
-                            return null;
-                          },
-                          prefixIcon:
-                              const Icon(Icons.supervised_user_circle_rounded),
-                          controller: controller.userNameController,
-                          type: TextInputType.name,
-                          hintText: 'User Name',
-                        ),
-                        SizedBox(
-                          height: 12.h,
-                        ),
-                        if (controller.emailController.text.isNotEmpty)
+                          SizedBox(
+                            height: 32.h,
+                          ),
                           AppTextFormField(
-                            prefixIcon: const Icon(Icons.email_outlined),
-                            controller: controller.emailController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'First Name Is Required';
+                              }
+                              return null;
+                            },
+                            prefixIcon: const Icon(Icons.person_sharp),
+                            controller: controller.firstNameController,
                             type: TextInputType.name,
-                            enabled: false,
-                            hintText: 'E-mail',
+                            hintText: 'First Name',
                           ),
-                        SizedBox(
-                          height: 12.h,
-                        ),
-                        if (controller.completeNumberController.text.isNotEmpty)
+                          SizedBox(
+                            height: 12.h,
+                          ),
                           AppTextFormField(
-                            prefixIcon: const Icon(Icons.phone_android_sharp),
-                            controller: controller.completeNumberController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Last Name Is Required';
+                              }
+                              return null;
+                            },
+                            prefixIcon: const Icon(Icons.person_sharp),
+                            controller: controller.lastNameController,
                             type: TextInputType.name,
-                            enabled: false,
-                            hintText: 'Phone Number',
+                            hintText: 'Last Name',
                           ),
-                      ],
+                          SizedBox(
+                            height: 12.h,
+                          ),
+                          AppTextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'User Name Is Required';
+                              }
+                              return null;
+                            },
+                            prefixIcon: const Icon(
+                                Icons.supervised_user_circle_rounded),
+                            controller: controller.userNameController,
+                            type: TextInputType.name,
+                            hintText: 'User Name',
+                          ),
+                          SizedBox(
+                            height: 12.h,
+                          ),
+                          if (controller.emailController.text.isNotEmpty)
+                            AppTextFormField(
+                              prefixIcon: const Icon(Icons.email_outlined),
+                              controller: controller.emailController,
+                              type: TextInputType.name,
+                              enabled: false,
+                              hintText: 'E-mail',
+                            ),
+                          SizedBox(
+                            height: 12.h,
+                          ),
+                          if (controller
+                              .completeNumberController.text.isNotEmpty)
+                            AppTextFormField(
+                              prefixIcon: const Icon(Icons.phone_android_sharp),
+                              controller: controller.completeNumberController,
+                              type: TextInputType.name,
+                              enabled: false,
+                              hintText: 'Phone Number',
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -225,9 +227,9 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                           children: [
                             const CircularProgressIndicator(),
                             Text(
-                              'Creating account ...',
+                              'Creating account',
                               style: Theme.of(context).textTheme.bodyMedium,
-                            )
+                            ),
                           ],
                         ),
                       )

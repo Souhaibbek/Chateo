@@ -48,6 +48,7 @@ class HomeController extends GetxController {
   }
 
   List<UserModel> contacts = [];
+
   late UserModel currentUserInfo;
   Future<void> getContactsList() async {
     try {

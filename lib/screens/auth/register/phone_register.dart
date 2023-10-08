@@ -23,7 +23,7 @@ class PhoneRegister extends StatelessWidget {
           },
         ),
       ),
-      body: GetX(
+      body: GetBuilder(
         init: RegisterController(),
         initState: (_) {},
         builder: (controller) => Padding(
@@ -72,22 +72,28 @@ class PhoneRegister extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10.h),
-              controller.loadingPhoneAuth.value
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).primaryColor,
+              Obx(
+                () => controller.loadingPhoneAuth.value
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      )
+                    : AppButtonPrimary(
+                        title: 'Continue',
+                        onPressed: controller.phoneController.text.isNotEmpty
+                            ? () {
+                                if (controller.phoneFormKey.currentState!
+                                    .validate()) {
+                                  controller.phoneAuth(
+                                    phoneNumber:
+                                        controller.completeNumber.value,
+                                  );
+                                }
+                              }
+                            : null,
                       ),
-                    )
-                  : AppButtonPrimary(
-                      title: 'Continue',
-                      onPressed: () {
-                        if (controller.phoneFormKey.currentState!.validate()) {
-                          controller.phoneAuth(
-                            phoneNumber: controller.completeNumber.value,
-                          );
-                        }
-                      },
-                    ),
+              ),
               SizedBox(
                 height: 10.h,
               ),

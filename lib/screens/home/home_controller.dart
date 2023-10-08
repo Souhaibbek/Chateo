@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:chateo/models/user_models.dart';
 import 'package:chateo/routes/app_routes.dart';
+import 'package:chateo/screens/home/settings/settings.view.dart';
+import 'package:chateo/widgets/snackbar.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,9 +18,13 @@ class HomeController extends GetxController {
   late PersistentTabController tabController;
   late TextEditingController searchController;
   RxBool isDarkMode = Get.isDarkMode.obs;
+  RxBool isInvisible = true.obs;
+  IconData visiblilityIcon = Icons.visibility_rounded;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxBool loadingContactsList = false.obs;
+  RxBool loadingChangePassword = false.obs;
+
   final FirebaseStorage storage = FirebaseStorage.instance;
   final ImagePicker picker = ImagePicker();
   File imageFile = File('');
@@ -35,6 +41,17 @@ class HomeController extends GetxController {
     tabController.dispose();
     searchController.dispose();
     super.onClose();
+  }
+
+  void switchVisibility() {
+    isInvisible(!isInvisible.value);
+    if (isInvisible.isFalse) {
+      visiblilityIcon = Icons.visibility_off_rounded;
+      update();
+    } else {
+      visiblilityIcon = Icons.visibility_rounded;
+      update();
+    }
   }
 
   void changeAppMode() {
@@ -75,8 +92,19 @@ class HomeController extends GetxController {
   }
 
   void logOut() {
-    FirebaseAuth.instance.signOut();
+    final user = FirebaseAuth.instance;
+    user.signOut();
     Get.offAllNamed(AppRoutes.WELCOME);
+  }
+
+  Future<void> deleteAccount() async {
+    final user = FirebaseAuth.instance.currentUser;
+    await user!.delete();
+    Get.offAllNamed(AppRoutes.WELCOME);
+    showSnackBar(
+      message: 'Account has been deleted successfully',
+      icon: const Icon(Icons.password_sharp),
+    );
   }
 
   /// Get from gallery
@@ -120,5 +148,61 @@ class HomeController extends GetxController {
       await value.ref.getDownloadURL().then((value) => imgUrl = value);
     });
     return imgUrl;
+  }
+
+  //change password
+  Future<void> changePassword(
+      {required String currentPassword, required String newPassword}) async {
+    var user = FirebaseAuth.instance.currentUser!;
+    loadingChangePassword(true);
+    try {
+      bool isLoggedIn = await reauthenticateUser(currentPassword);
+      if (isLoggedIn) {
+        await user.updatePassword(newPassword).then((value) {
+          Get.to(const SettingsView());
+          showSnackBar(
+            message: 'Password has been changed successfully',
+            icon: const Icon(Icons.password_sharp),
+          );
+        });
+      }
+    } on Exception catch (e) {
+      showSnackBar(
+        message: e.toString(),
+        icon: const Icon(Icons.password_sharp),
+      );
+    } finally {
+      loadingChangePassword(false);
+    }
+  }
+
+  Future<bool> reauthenticateUser(String password) async {
+    bool success = false;
+
+    //Create an instance of the current user.
+    var user = FirebaseAuth.instance.currentUser!;
+    //Must re-authenticate user before updating the password. Otherwise it may fail or user get signed out.
+    final cred =
+        EmailAuthProvider.credential(email: user.email!, password: password);
+
+    try {
+      await user
+          .reauthenticateWithCredential(cred)
+          .then((value) => success = true);
+      return success;
+    } on FirebaseException catch (e) {
+      if (e.code == 'wrong-password') {
+        showSnackBar(
+          message: 'Current password is incorrect, Please try again!',
+          icon: const Icon(Icons.password_sharp),
+        );
+      }
+      if (e.code == 'too-many-requests') {
+        showSnackBar(
+            message: 'Too many requests, Please try again later!',
+            icon: const Icon(Icons.data_array));
+      }
+      return success;
+    }
   }
 }

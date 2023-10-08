@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
           },
         ),
       ),
-      body: GetX(
+      body: GetBuilder(
         init: LoginController(),
         initState: (_) {},
         builder: (controller) => Padding(
@@ -132,43 +132,58 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              controller.loading.value
-                  ? Center(
-                      child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ))
-                  : AppButtonPrimary(
-                      title: 'Log in',
-                      onPressed: () {
-                        if (controller.loginFormKey.currentState!.validate()) {
-                          controller.signInUserPerEmail(
-                              email: controller.emailController.text,
-                              password: controller.passwordController.text);
-                        }
-                      },
-                    ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Not Registered Yet? ',
-                    style: style.textTheme.bodyMedium!,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.offAndToNamed(AppRoutes.REGISTER);
-                    },
-                    child: Text(
-                      'Sign up',
-                      style: style.textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w700,
+              Obx(
+                () => controller.loading.value
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          AppButtonPrimary(
+                            title: 'Log in',
+                            onPressed: controller
+                                        .emailController.text.isNotEmpty &&
+                                    controller
+                                        .passwordController.text.isNotEmpty
+                                ? () {
+                                    if (controller.loginFormKey.currentState!
+                                        .validate()) {
+                                      controller.signInUserPerEmail(
+                                          email:
+                                              controller.emailController.text,
+                                          password: controller
+                                              .passwordController.text);
+                                    }
+                                  }
+                                : null,
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Not Registered Yet? ',
+                                style: style.textTheme.bodyMedium!,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.offAndToNamed(AppRoutes.REGISTER);
+                                },
+                                child: Text(
+                                  'Sign up',
+                                  style: style.textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ],
               ),
               SizedBox(height: 10.h),
             ],

@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
             theme: Themes.lightTheme,
             darkTheme: Themes.darkTheme,
             themeMode: ThemeMode.system,
-            initialRoute: AppRoutes.HOME,
+            initialRoute: AppRoutes.SPLASH,
           );
         });
   }

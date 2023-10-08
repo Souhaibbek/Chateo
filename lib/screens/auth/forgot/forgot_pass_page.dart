@@ -81,22 +81,28 @@ class ForgotPassPage extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              controller.loading.value
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).primaryColor,
+              Obx(
+                () => controller.loading.value
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      )
+                    : AppButtonPrimary(
+                        title: 'Reset Password',
+                        onPressed: controller.emailController.text.isNotEmpty
+                            ? () {
+                                if (controller.forgotFormKey.currentState!
+                                    .validate()) {
+                                  controller.sentResetPasswordEmail(
+                                      emailAddress: controller
+                                          .emailController.text
+                                          .trim());
+                                }
+                              }
+                            : null,
                       ),
-                    )
-                  : AppButtonPrimary(
-                      title: 'Reset Password',
-                      onPressed: () {
-                        if (controller.forgotFormKey.currentState!.validate()) {
-                          controller.sentResetPasswordEmail(
-                              emailAddress:
-                                  controller.emailController.text.trim());
-                        }
-                      },
-                    ),
+              ),
               SizedBox(
                 height: 10.h,
               ),

@@ -1,16 +1,19 @@
-import 'package:chateo/screens/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Future<dynamic> logOutAlertDialog(
-    HomeController controller, BuildContext context) {
+Future<dynamic> myAlertDialog(
+  BuildContext context, {
+  void Function()? onTap,
+  required String text,
+  String title = 'Confirm',
+}) {
   var style = Theme.of(context);
 
   return Get.defaultDialog(
     actions: [
       GestureDetector(
-        onTap: () => controller.logOut(),
+        onTap: onTap,
         child: Container(
           height: 40,
           width: 80,
@@ -42,9 +45,9 @@ Future<dynamic> logOutAlertDialog(
         ),
       ),
     ],
-    title: 'Confirm',
+    title: title,
     titleStyle: style.textTheme.headlineMedium,
-    middleText: 'Are you sure you want to exit?',
+    middleText: text,
     middleTextStyle: style.textTheme.bodyMedium,
     contentPadding: EdgeInsets.all(20.h),
   );

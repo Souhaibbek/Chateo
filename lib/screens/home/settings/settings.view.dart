@@ -1,6 +1,6 @@
 import 'package:chateo/models/user_models.dart';
 import 'package:chateo/screens/home/home_controller.dart';
-import 'package:chateo/screens/home/settings/settings_menu.dart';
+import 'package:chateo/screens/home/settings/settings_menu_widget.dart';
 import 'package:chateo/screens/home/settings/settings_header_widget.dart';
 import 'package:chateo/styles/colors.dart';
 import 'package:flutter/material.dart';

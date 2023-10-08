@@ -8,14 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class CompleteProfilePage extends StatefulWidget {
+class CompleteProfilePage extends StatelessWidget {
   const CompleteProfilePage({super.key});
 
-  @override
-  State<CompleteProfilePage> createState() => _CompleteProfilePageState();
-}
-
-class _CompleteProfilePageState extends State<CompleteProfilePage> {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> completeProfileFormKey = GlobalKey<FormState>();
@@ -146,6 +141,9 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                             height: 32.h,
                           ),
                           AppTextFormField(
+                            onChanged: (val) {
+                              controller.update();
+                            },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'First Name Is Required';
@@ -161,6 +159,9 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                             height: 12.h,
                           ),
                           AppTextFormField(
+                            onChanged: (val) {
+                              controller.update();
+                            },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Last Name Is Required';
@@ -176,6 +177,9 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                             height: 12.h,
                           ),
                           AppTextFormField(
+                            onChanged: (val) {
+                              controller.update();
+                            },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'User Name Is Required';
@@ -235,28 +239,35 @@ class _CompleteProfilePageState extends State<CompleteProfilePage> {
                       )
                     : AppButtonPrimary(
                         title: 'Start Messaging',
-                        onPressed: () async {
-                          if (completeProfileFormKey.currentState!.validate()) {
-                            if (controller.imageFile.path != '') {
-                              controller.saveProfile();
-                            } else {
-                              Get.showSnackbar(
-                                const GetSnackBar(
-                                  margin: EdgeInsets.all(20),
-                                  borderRadius: 10.0,
-                                  message: 'Please upload a profile image',
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  icon: Icon(
-                                    Icons.upload,
-                                    color: AppColors.kGreyColor,
-                                  ),
-                                  duration: Duration(seconds: 1),
-                                  isDismissible: true,
-                                ),
-                              );
-                            }
-                          }
-                        }),
+                        onPressed: controller
+                                    .firstNameController.text.isNotEmpty &&
+                                controller.lastNameController.text.isNotEmpty &&
+                                controller.userNameController.text.isNotEmpty
+                            ? () async {
+                                if (completeProfileFormKey.currentState!
+                                    .validate()) {
+                                  if (controller.imageFile.path != '') {
+                                    controller.saveProfile();
+                                  } else {
+                                    Get.showSnackbar(
+                                      const GetSnackBar(
+                                        margin: EdgeInsets.all(20),
+                                        borderRadius: 10.0,
+                                        message:
+                                            'Please upload a profile image',
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        icon: Icon(
+                                          Icons.upload,
+                                          color: AppColors.kGreyColor,
+                                        ),
+                                        duration: Duration(seconds: 1),
+                                        isDismissible: true,
+                                      ),
+                                    );
+                                  }
+                                }
+                              }
+                            : null),
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:chateo/screens/home/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 
@@ -16,11 +17,11 @@ class AppearencePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Appearence',
-          style: style.textTheme.titleMedium,
+          style: style.textTheme.headlineMedium,
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(20.0.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -25,7 +25,7 @@ class RegisterPage extends StatelessWidget {
           },
         ),
       ),
-      body: GetX(
+      body: GetBuilder(
         init: RegisterController(),
         initState: (_) {},
         builder: (controller) => Padding(
@@ -138,44 +138,61 @@ class RegisterPage extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              controller.loadingEmailAuth.value
-                  ? Center(
-                      child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ))
-                  : AppButtonPrimary(
-                      title: 'Create Account',
-                      onPressed: () {
-                        if (controller.registerFormKey.currentState!
-                            .validate()) {
-                          controller.registerWithEmailAndPassword(
-                              email: controller.emailController.text,
-                              password: controller.passwordController.text);
-                        }
-                      },
-                    ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already has an account? ',
-                    style: style.textTheme.bodyMedium!,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.offAndToNamed(AppRoutes.LOGIN);
-                    },
-                    child: Text(
-                      'Log in',
-                      style: style.textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w700,
+              Obx(
+                () => controller.loadingEmailAuth.value
+                    ? Center(
+                        child: CircularProgressIndicator(
+                        color: Theme.of(context).primaryColor,
+                      ))
+                    : Column(
+                        children: [
+                          AppButtonPrimary(
+                            title: 'Create Account',
+                            onPressed:
+                                controller.emailController.text.isNotEmpty &&
+                                        controller.passwordController.text
+                                            .isNotEmpty &&
+                                        controller
+                                            .password2Controller.text.isNotEmpty
+                                    ? () {
+                                        if (controller
+                                            .registerFormKey.currentState!
+                                            .validate()) {
+                                          controller
+                                              .registerWithEmailAndPassword(
+                                                  email: controller
+                                                      .emailController.text,
+                                                  password: controller
+                                                      .passwordController.text);
+                                        }
+                                      }
+                                    : null,
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Already has an account? ',
+                                style: style.textTheme.bodyMedium!,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.offAndToNamed(AppRoutes.LOGIN);
+                                },
+                                child: Text(
+                                  'Log in',
+                                  style: style.textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ],
               ),
               SizedBox(height: 10.h),
             ],

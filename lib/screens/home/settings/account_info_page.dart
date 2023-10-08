@@ -1,7 +1,7 @@
 import 'package:chateo/models/user_models.dart';
-import 'package:chateo/screens/home/home_controller.dart';
 import 'package:chateo/widgets/account_info_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class AccountInfoPage extends StatelessWidget {
@@ -13,18 +13,17 @@ class AccountInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeController controller = Get.find();
     var style = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Account Info',
-          style: style.textTheme.titleMedium,
+          style: style.textTheme.headlineMedium,
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0.h),
           child: Column(
             children: [
               accountInfoItem(

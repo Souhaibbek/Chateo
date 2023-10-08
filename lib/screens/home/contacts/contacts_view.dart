@@ -1,5 +1,4 @@
 import 'package:chateo/screens/home/home_controller.dart';
-import 'package:chateo/utils/assets.dart';
 import 'package:chateo/utils/text_field.dart';
 import 'package:chateo/screens/home/contacts/contacts_item_widget.dart';
 import 'package:chateo/widgets/global_appbar.dart';

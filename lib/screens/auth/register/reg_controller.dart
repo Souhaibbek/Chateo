@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
@@ -26,7 +27,7 @@ class RegisterController extends GetxController {
   GlobalKey<FormState> completeProfileFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
-
+  GetStorage cacheHelper = GetStorage();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController password2Controller = TextEditingController();
@@ -153,7 +154,13 @@ class RegisterController extends GetxController {
       if (auth.currentUser != null) {
         userCredential.additionalUserInfo!.isNewUser
             ? Get.offNamed(AppRoutes.COMPLETEPROFILE)
-            : Get.offAllNamed(AppRoutes.HOME);
+            : {
+                Get.offAllNamed(AppRoutes.HOME),
+                await cacheHelper.write(
+                  'token',
+                  auth.currentUser!.uid,
+                ),
+              };
       }
       update();
     } catch (e) {
@@ -227,6 +234,11 @@ class RegisterController extends GetxController {
       );
       await createUserProfile(userModel);
       Get.offAllNamed(AppRoutes.HOME);
+      await cacheHelper.write(
+        'token',
+        auth.currentUser!.uid,
+      );
+
       update();
     } on Exception catch (e) {
       log(e.toString());

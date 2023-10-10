@@ -34,32 +34,27 @@ class WelcomePage extends GetView<WelcomeController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        controller.changeAppMode();
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 40.h),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                Assets.logo,
-                                width: 20,
+                    Padding(
+                      padding: EdgeInsets.only(top: 40.h),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              Assets.logo,
+                              width: 20,
+                            ),
+                            Text(
+                              ' Chateo',
+                              textAlign: TextAlign.center,
+                              style: style.textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.kWhitePure,
                               ),
-                              Text(
-                                ' Chateo',
-                                textAlign: TextAlign.center,
-                                style: style.textTheme.titleMedium!.copyWith(
-                                  fontWeight: FontWeight.w900,
-                                  color: AppColors.kWhitePure,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

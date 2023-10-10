@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:chateo/screens/home/home_controller.dart';
 import 'package:chateo/utils/buttons.dart';
 import 'package:chateo/utils/text_field.dart';

@@ -5,13 +5,14 @@ import 'package:chateo/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   RxBool loading = false.obs;
   RxBool isInvisible = true.obs;
   IconData visiblilityIcon = Icons.visibility_rounded;
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-
+  GetStorage cacheHelper = GetStorage();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -43,7 +44,7 @@ class LoginController extends GetxController {
         password: password,
       );
       Get.offAllNamed(AppRoutes.HOME);
-      log(credential.user.toString());
+      await cacheHelper.write('token', credential.user!.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showSnackBar(

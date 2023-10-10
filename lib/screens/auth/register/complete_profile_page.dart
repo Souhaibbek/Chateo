@@ -230,6 +230,9 @@ class CompleteProfilePage extends StatelessWidget {
                         child: Column(
                           children: [
                             const CircularProgressIndicator(),
+                            SizedBox(
+                              height: 10.h,
+                            ),
                             Text(
                               'Creating account',
                               style: Theme.of(context).textTheme.bodyMedium,

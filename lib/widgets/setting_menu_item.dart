@@ -26,7 +26,7 @@ Widget settingsMenuItem(
         SizedBox(
           width: 10.0.w,
         ),
-        Flexible(
+        Expanded(
           child: Text(
             title,
             overflow: TextOverflow.ellipsis,
@@ -36,6 +36,10 @@ Widget settingsMenuItem(
                 ? style.textTheme.headlineMedium!.copyWith(color: Colors.red)
                 : style.textTheme.headlineMedium,
           ),
+        ),
+        const Align(
+          alignment: Alignment.centerRight,
+          child: Icon(Icons.arrow_forward_ios_outlined),
         ),
       ],
     ),

@@ -12,9 +12,7 @@ class HomePage extends GetView<HomeController> {
     Get.put(HomeController());
     return GetBuilder(
       init: HomeController(),
-      initState: (state) {
-        controller.getContactsList();
-      },
+      initState: (state) {},
       builder: (controller) {
         return Scaffold(
           extendBody: true,
@@ -52,7 +50,7 @@ class HomePage extends GetView<HomeController> {
               duration: Duration(milliseconds: 200),
             ),
             navBarStyle: NavBarStyle
-                .style9, // Choose the nav bar style with this property.
+                .style13, // Choose the nav bar style with this property.
           ),
         );
       },

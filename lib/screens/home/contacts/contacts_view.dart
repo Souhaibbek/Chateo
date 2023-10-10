@@ -3,6 +3,7 @@ import 'package:chateo/utils/text_field.dart';
 import 'package:chateo/screens/home/contacts/contacts_item_widget.dart';
 import 'package:chateo/widgets/global_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'empty_contacts.dart';
@@ -37,27 +38,35 @@ class ContactsView extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Obx(
-              () => controller.loadingContactsList.isTrue
-                  ? const Center(child: CircularProgressIndicator())
-                  : (controller.contacts.isNotEmpty)
-                      ? ListView.builder(
-                          itemCount: controller.contacts.length,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: ContactsItemWidget(
-                              userModel: controller.contacts[index],
-                              index: index,
-                            ),
-                          ),
-                        )
-                      : const Center(
-                          child: EmptyContactsList(),
-                        ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Obx(
+                    () => controller.loadingContactsList.isTrue
+                        ? const Center(child: CircularProgressIndicator())
+                        : (controller.contacts.isNotEmpty)
+                            ? ListView.builder(
+                                itemCount: controller.contacts.length,
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) => Padding(
+                                  padding: EdgeInsets.only(top: 8.0.h),
+                                  child: ContactsItemWidget(
+                                    userModel: controller.contacts[index],
+                                    index: index,
+                                  ),
+                                ),
+                              )
+                            : const Center(
+                                child: EmptyContactsList(),
+                              ),
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  )
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
           ),
         ],
       ),

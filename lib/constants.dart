@@ -24,7 +24,7 @@ List<PersistentBottomNavBarItem> navBarsItems() {
       title: "Contacts",
       textStyle: TextStyle(
         fontFamily: 'Mulish',
-        fontSize: 14.sp,
+        fontSize: 18.sp,
         fontWeight: FontWeight.bold,
       ),
       contentPadding: 0,
@@ -39,13 +39,22 @@ List<PersistentBottomNavBarItem> navBarsItems() {
           Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
       inactiveColorPrimary:
           Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-      icon: Container(),
+      icon: Center(
+        child: Text(
+          "Contacts",
+          style: TextStyle(
+            fontFamily: 'Mulish',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     ),
     PersistentBottomNavBarItem(
       title: "Chats",
       textStyle: TextStyle(
         fontFamily: 'Mulish',
-        fontSize: 14.sp,
+        fontSize: 18.sp,
         fontWeight: FontWeight.bold,
       ),
       contentPadding: 0,
@@ -60,13 +69,22 @@ List<PersistentBottomNavBarItem> navBarsItems() {
           Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
       inactiveColorPrimary:
           Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-      icon: Container(),
+      icon: Center(
+        child: Text(
+          "Chats",
+          style: TextStyle(
+            fontFamily: 'Mulish',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     ),
     PersistentBottomNavBarItem(
       title: "Settings",
       textStyle: TextStyle(
         fontFamily: 'Mulish',
-        fontSize: 14.sp,
+        fontSize: 18.sp,
         fontWeight: FontWeight.bold,
       ),
       contentPadding: 0,
@@ -81,7 +99,16 @@ List<PersistentBottomNavBarItem> navBarsItems() {
           Get.isDarkMode ? AppColors.kWhitePure : AppColors.kBlackColor,
       inactiveColorPrimary:
           Get.isDarkMode ? AppColors.kWhiteColor : AppColors.kBlackColor,
-      icon: Container(),
+      icon: Center(
+        child: Text(
+          "Settings",
+          style: TextStyle(
+            fontFamily: 'Mulish',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     ),
   ];
 }

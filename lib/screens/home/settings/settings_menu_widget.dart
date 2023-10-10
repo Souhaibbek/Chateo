@@ -2,7 +2,6 @@ import 'package:chateo/screens/home/home_controller.dart';
 import 'package:chateo/screens/home/settings/account_info_page.dart';
 import 'package:chateo/screens/home/settings/appearence_page.dart';
 import 'package:chateo/screens/home/settings/privacy_security.dart';
-import 'package:chateo/widgets/circular_icon_widget.dart';
 import 'package:chateo/widgets/custom_bottom_sheet.dart';
 import 'package:chateo/widgets/alert_dialog.dart';
 import 'package:chateo/widgets/setting_menu_item.dart';

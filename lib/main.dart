@@ -11,10 +11,15 @@ import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'styles/colors.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:get_storage/get_storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Assets.svgPrecacheImage();
+  await GetStorage.init();
+  GetStorage cacheHelper = GetStorage();
+  bool isDark = cacheHelper.read('isDark') ?? false;
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -27,12 +32,18 @@ void main() async {
   //   ),
   // );
   runApp(
-    const MyApp(),
+    MyApp(
+      isDark: isDark,
+    ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isDark;
+  const MyApp({
+    super.key,
+    required this.isDark,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +60,7 @@ class MyApp extends StatelessWidget {
             getPages: AppPages.pages,
             theme: Themes.lightTheme,
             darkTheme: Themes.darkTheme,
-            themeMode: ThemeMode.system,
+            themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
             initialRoute: AppRoutes.SPLASH,
           );
         });

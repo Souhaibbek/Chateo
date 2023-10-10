@@ -4,35 +4,37 @@ import 'package:chateo/models/user_models.dart';
 import 'package:chateo/routes/app_routes.dart';
 import 'package:chateo/screens/home/settings/settings.view.dart';
 import 'package:chateo/widgets/snackbar.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class HomeController extends GetxController {
-  late PersistentTabController tabController;
-  late TextEditingController searchController;
   RxBool isDarkMode = Get.isDarkMode.obs;
   RxBool isInvisible = true.obs;
   IconData visiblilityIcon = Icons.visibility_rounded;
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   RxBool loadingContactsList = false.obs;
   RxBool loadingChangePassword = false.obs;
-
+  late PersistentTabController tabController;
+  late TextEditingController searchController;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
-  final ImagePicker picker = ImagePicker();
   File imageFile = File('');
   RxBool isPicked = false.obs;
+  final ImagePicker picker = ImagePicker();
+  final GetStorage cacheHelper = GetStorage();
   @override
-  void onInit() {
+  void onInit() async {
     tabController = PersistentTabController(initialIndex: 0);
     searchController = TextEditingController();
+    await getContactsList();
+
     super.onInit();
   }
 
@@ -54,13 +56,17 @@ class HomeController extends GetxController {
     }
   }
 
-  void changeAppMode() {
+  void changeAppMode() async {
     if (isDarkMode.isTrue) {
       isDarkMode.value = false;
+
       Get.changeThemeMode(ThemeMode.light);
+      await cacheHelper.write('isDark', false);
     } else {
       isDarkMode.value = true;
       Get.changeThemeMode(ThemeMode.dark);
+
+      await cacheHelper.write('isDark', true);
     }
   }
 
@@ -91,10 +97,11 @@ class HomeController extends GetxController {
     }
   }
 
-  void logOut() {
+  void logOut() async {
     final user = FirebaseAuth.instance;
     user.signOut();
     Get.offAllNamed(AppRoutes.WELCOME);
+    await cacheHelper.remove('token');
   }
 
   Future<void> deleteAccount() async {
@@ -105,6 +112,7 @@ class HomeController extends GetxController {
       message: 'Account has been deleted successfully',
       icon: const Icon(Icons.password_sharp),
     );
+    await cacheHelper.remove('token');
   }
 
   /// Get from gallery
